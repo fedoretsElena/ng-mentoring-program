@@ -1,4 +1,6 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, EventEmitter, Output } from '@angular/core';
+
+import { Course } from '../../entitites';
 
 @Component({
   selector: 'cs-courses-list',
@@ -7,10 +9,19 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CoursesListComponent implements OnInit {
+  @Input()
+  courses: Course[];
+
+  @Output()
+  deleteCourse: EventEmitter<number> = new EventEmitter<number>();
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onDeleteCourse(id: number): void {
+    this.deleteCourse.emit(id);
   }
 
 }

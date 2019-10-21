@@ -7,10 +7,15 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchBarComponent implements OnInit {
+  search: string;
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onSubmit(): void {
+    console.log('Search', this.search);
   }
 
 }

@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
+import { SharedModule } from '../shared';
 import { components, CoursesComponent } from './components';
 
 @NgModule({
@@ -8,7 +10,11 @@ import { components, CoursesComponent } from './components';
     ...components
   ],
   imports: [
-    CommonModule
+    CommonModule,
+
+    FormsModule,
+
+    SharedModule
   ],
   exports: [
     CoursesComponent

@@ -1,9 +1,27 @@
-<section class="container">
-  <cs-search-bar></cs-search-bar>
+<section class="container courses">
+  <cs-search-bar
+    class="search-bar d-block my-4"
+  ></cs-search-bar>
 
-  <div class="d-flex justify-content-end">
+  <div class="d-flex justify-content-end mb-3">
     <cs-add-course-btn></cs-add-course-btn>
   </div>
 
-  <cs-courses-list></cs-courses-list>
+  <ng-container *ngIf="courses$ | async as courses">
+    <ng-container  *ngIf="courses.length > 0;else noCourses">
+      <cs-courses-list
+        [courses]="courses"
+        (deleteCourse)="onDeleteCourse($event)"
+      ></cs-courses-list>
+
+      <div
+        class="load-more-btn rounded text-uppercase btn-link text-info text-center mt-4 p-3 link"
+        (click)="onLoadMore()"
+      >load more</div>
+    </ng-container>
+
+    <ng-template #noCourses>
+      <div class="alert alert-info w-100 p-3">There is no courses yet.</div>
+    </ng-template>
+  </ng-container>
 </section>

@@ -1,0 +1,34 @@
+@import "../../../../styles/custom/variables";
+
+.search-form {
+
+  &__input {
+    box-shadow: none;
+    padding-left: 3rem;
+    font-size: $base-font-size;
+
+    &-icon {
+      top: 50%;
+      left: 1rem;
+      z-index: 1;
+      position: absolute;
+      transform: translateY(-50%);
+
+      color: #868996;
+      font-size: $font-size-xxlarger;
+    }
+
+    &-wrapper {
+      position: relative;
+    }
+
+    &::placeholder {
+      color: #c0c3ce;
+      letter-spacing: .2px;
+    }
+  }
+
+  &__btn {
+    font-size: $font-size-xxlarger;
+  }
+}

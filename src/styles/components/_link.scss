@@ -1,0 +1,17 @@
+a, .link {
+  transition: .3s color;
+
+  &:not([disabled]) {
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: none;
+      color: $active-link;
+    }
+  }
+}
+
+.link-light {
+  color: $white;
+}
+

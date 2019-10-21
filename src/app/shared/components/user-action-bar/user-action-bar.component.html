@@ -1,1 +1,11 @@
-<div>user-action-bar works!</div>
+<div class="d-flex align-items-center">
+  <a
+    class="d-flex align-items-center mr-4 link-light"
+    routerLink=""
+  > <i class="fas fa-user pr-2"></i> User login</a>
+
+  <div
+    class="d-flex align-items-center link"
+    (click)="logout()"
+  > <i class="fas fa-sign-out-alt pr-2"></i> Log off </div>
+</div>
