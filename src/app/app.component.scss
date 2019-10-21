@@ -1,0 +1,22 @@
+@import "../styles/functions";
+
+.main {
+  min-height: 100vh;
+  position: relative;
+  padding-top: remy(60);
+  padding-bottom: remy(60);
+
+  &__header {
+    top: 0;
+    left: 0;
+    right: 0;
+    position: fixed;
+  }
+
+  &__footer {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+  }
+}
