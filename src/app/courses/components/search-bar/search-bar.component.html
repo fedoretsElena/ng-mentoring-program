@@ -1,1 +1,19 @@
-<div class="py-4">search-bar works!</div>
+<form
+  class="search-form d-flex"
+  (submit)="onSubmit()"
+>
+  <div class="search-form__input-wrapper w-100">
+    <i class="search-form__input-icon fas fa-search"></i>
+
+    <input
+      name="search"
+      class="search-form__input form-control h-100"
+      placeholder="Text to search"
+      [(ngModel)]="search"
+    >
+  </div>
+
+  <button
+    class="search-form__btn btn btn-success btn-lg text-white ml-1 px-3"
+  >Search</button>
+</form>

@@ -13,4 +13,5 @@ export class AddCourseBtnComponent implements OnInit {
   ngOnInit() {
   }
 
+  onAddNew(): void {}
 }

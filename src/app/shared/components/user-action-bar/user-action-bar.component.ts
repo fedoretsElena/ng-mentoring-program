@@ -13,4 +13,6 @@ export class UserActionBarComponent implements OnInit {
   ngOnInit() {
   }
 
+  logout(): void {}
+
 }

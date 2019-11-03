@@ -1,0 +1,40 @@
+@import "../../../../styles/custom/variables";
+
+.course {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(8, 1fr);
+
+  background: white;
+  box-shadow: 0 0 1rem #e8e8e8;
+
+  &__title {
+    grid-column: 1 / 5;
+  }
+
+  &__description {
+    line-height: 1.7;
+    grid-column: 1 / 7;
+  }
+
+  &__btn {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    font-size: $font-size-tiny;
+  }
+
+  &__duration, &__creation-date {
+    color: #b9bdce;
+    font-weight: 100;
+    font-size: $font-size-tiny;
+  }
+
+  &__time-date {
+    grid-column: 6 / 8;
+  }
+
+  &__btns {
+    grid-column: 7 / 9;
+    justify-self: end;
+  }
+}
