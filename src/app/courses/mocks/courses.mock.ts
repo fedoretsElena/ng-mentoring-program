@@ -5,7 +5,7 @@ export const courses: ICourse[] = [{
   title: 'Video Course 1. Name tag',
   description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci animi at beatae blanditiis debitis dolore ' +
     'ea exercitationem id ipsam iusto libero molestiae mollitia, quas repellendus sint, ut velit? Perferendis, sequi!',
-  duration: 124,
+  duration: 59,
   creationDate: '09.11.2018'
 }, {
   id: 2,
