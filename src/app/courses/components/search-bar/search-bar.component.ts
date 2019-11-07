@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'cs-search-bar',
@@ -6,16 +6,16 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./search-bar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SearchBarComponent implements OnInit {
+export class SearchBarComponent {
   search: string;
 
-  constructor() { }
+  @Output()
+  changeSearch: EventEmitter<string> = new EventEmitter<string>();
 
-  ngOnInit() {
+  constructor() {
   }
 
-  onSubmit(): void {
-    console.log('Search', this.search);
+  onSubmit(value: string): void {
+    this.changeSearch.emit(value);
   }
-
 }

@@ -6,7 +6,8 @@ export const courses: ICourse[] = [{
   description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci animi at beatae blanditiis debitis dolore ' +
     'ea exercitationem id ipsam iusto libero molestiae mollitia, quas repellendus sint, ut velit? Perferendis, sequi!',
   duration: 59,
-  creationDate: '09.11.2018'
+  topRated: true,
+  creationDate: '2019-11-02'
 }, {
   id: 2,
   title: 'Video Course 2. Name tag',
@@ -15,7 +16,7 @@ export const courses: ICourse[] = [{
     'ipsum dolor sit amet, consectetur adipisicing elit. Adipisci animi at beatae blanditiis debitis dolore dolor sit ' +
     'amet, consectetur adipisicing elit. Adipisci animi at beatae blanditiis debitis dolore ',
   duration: 180,
-  creationDate: '09.12.2018'
+  creationDate: '2020-09-12'
 }, {
   id: 3,
   title: 'Video Course 3. Name tag',
@@ -23,5 +24,5 @@ export const courses: ICourse[] = [{
     'ea exercitationem id ipsam iusto libero molestiae mollitia, quas repellendus sint, ut velit? ' +
     'Perferendis, sequi! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci animi at beatae blanditiis debitis dolore ',
   duration: 14,
-  creationDate: '09.11.2018'
+  creationDate: '2018-11-11'
 }];

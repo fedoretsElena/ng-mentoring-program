@@ -8,6 +8,8 @@ import { AddCourseBtnComponent } from '../add-course-btn';
 import { CoursesListComponent } from '../courses-list';
 import { CourseItemComponent } from '../course-item';
 import { SharedModule } from '../../../shared';
+import { OrderByPipe } from '../../pipes';
+import { DateStatusDirective } from '../../directives';
 
 describe('CoursesComponent', () => {
   let component: CoursesComponent;
@@ -20,7 +22,10 @@ describe('CoursesComponent', () => {
         SearchBarComponent,
         AddCourseBtnComponent,
         CoursesListComponent,
-        CourseItemComponent
+        CourseItemComponent,
+
+        OrderByPipe,
+        DateStatusDirective
       ],
       imports: [
         FormsModule,

@@ -3,12 +3,14 @@ export interface ICourse {
   title: string;
   duration: number;
   description: string;
+  topRated?: boolean;
   creationDate: Date | string;
 }
 
 export class Course implements ICourse {
   id: number;
   title: string;
+  topRated: boolean;
   creationDate: Date;
   duration: number;
   description: string;

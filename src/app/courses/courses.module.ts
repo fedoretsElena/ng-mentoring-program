@@ -4,10 +4,14 @@ import { FormsModule } from '@angular/forms';
 
 import { SharedModule } from '../shared';
 import { components, CoursesComponent } from './components';
+import { directives } from './directives';
+import { pipes } from './pipes';
 
 @NgModule({
   declarations: [
-    ...components
+    ...components,
+    ...directives,
+    ...pipes
   ],
   imports: [
     CommonModule,
