@@ -36,15 +36,14 @@ describe('SearchBarComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should log search value after onSubmit()', () => {
-    const consoleLogSpy = spyOn(console, 'log');
-    const search = 'NgRx course';
+  it('should raise search value after onSubmit()', () => {
+    let updatedSearch;
+    const search = 'NgRx';
 
-    component.search = search;
-    fixture.detectChanges();
+    component.changeSearch.subscribe(v => updatedSearch = v);
 
-    component.onSubmit();
+    component.onSubmit(search);
 
-    expect(consoleLogSpy).toHaveBeenCalledWith('Search', search);
+    expect(updatedSearch).toBe(search);
   });
 });

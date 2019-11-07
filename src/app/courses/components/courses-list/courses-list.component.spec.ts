@@ -5,6 +5,7 @@ import { CourseItemComponent } from '../course-item';
 import { SharedModule } from '../../../shared';
 import { courses } from '../../mocks';
 import { Course } from '../../entitites';
+import { DateStatusDirective } from '../../directives';
 
 describe('CoursesListComponent', () => {
   let component: CoursesListComponent;
@@ -15,6 +16,8 @@ describe('CoursesListComponent', () => {
       declarations: [
         CoursesListComponent,
         CourseItemComponent,
+
+        DateStatusDirective
       ],
       imports: [
         SharedModule

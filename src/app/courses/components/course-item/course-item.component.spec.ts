@@ -5,6 +5,7 @@ import { CourseItemComponent } from './course-item.component';
 import { SharedModule } from '../../../shared';
 import { courses } from '../../mocks';
 import { Course } from '../../entitites';
+import { DateStatusDirective } from '../../directives';
 
 describe('CourseItemComponent', () => {
   let component: CourseItemComponent;
@@ -12,7 +13,11 @@ describe('CourseItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CourseItemComponent ],
+      declarations: [
+        CourseItemComponent,
+
+        DateStatusDirective
+      ],
       imports: [
         SharedModule
       ]
@@ -26,6 +31,7 @@ describe('CourseItemComponent', () => {
     component.course = {
       id: 1,
       duration: 123,
+      topRated: false,
       title: 'Test course',
       creationDate: new Date(),
       description: 'Once upon a time..'

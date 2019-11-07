@@ -1,13 +1,14 @@
 <section class="container courses">
   <cs-search-bar
     class="search-bar d-block my-4"
+    (changeSearch)="onChangeSearch($event)"
   ></cs-search-bar>
 
   <div class="d-flex justify-content-end mb-3">
     <cs-add-course-btn></cs-add-course-btn>
   </div>
 
-  <ng-container *ngIf="courses$ | async as courses">
+  <ng-container *ngIf="courses$ | async | orderBy as courses">
     <ng-container  *ngIf="courses.length > 0;else noCourses">
       <cs-courses-list
         [courses]="courses"
@@ -21,7 +22,7 @@
     </ng-container>
 
     <ng-template #noCourses>
-      <div class="alert alert-info w-100 p-3">There is no courses yet.</div>
+      <div class="alert alert-info w-100 p-3 text-uppercase text-center">No data. Feel free to add new course.</div>
     </ng-template>
   </ng-container>
 </section>

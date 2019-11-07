@@ -1,12 +1,24 @@
-<div class="course w-100 p-4 rounded">
-  <h4 class="course__title font-weight-bold mb-0">{{ course.title }}</h4>
+<div
+  class="course w-100 p-4 rounded"
+  csDateStatus
+  [date]="course.creationDate"
+  [ngClass]="{ 'bg-light': course.topRated }"
+>
+  <h4 class="course__title d-flex align-items-center font-weight-bold mb-0">
+    {{ course.title | uppercase }}
+
+    <i
+      class="fa fa-star text-warning ml-2"
+      *ngIf="course.topRated"
+    ></i>
+  </h4>
 
   <div class="course__time-date d-flex align-items-center text-secondary">
     <span class="course__duration d-inline-block mr-4"> <i class="far fa-clock pr-1"></i>
       {{ course.duration | csDuration }}
     </span>
     <span class="course__creation-date"><i class="far fa-calendar pr-1"></i>
-      {{ course.creationDate | date: 'mediumDate'}}
+      {{ course.creationDate | date: 'd MMM, y'}}
     </span>
   </div>
 
