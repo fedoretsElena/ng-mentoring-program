@@ -59,4 +59,13 @@ describe('CourseItemComponent', () => {
     deleteBtn.triggerEventHandler('click', null);
     expect(selectedId).toBe(component.course.id);
   });
+
+  it('should call console.log after call onEdit()', () => {
+    const spy = spyOn(console, 'log');
+    const id = 1;
+
+    component.onEdit(id);
+
+    expect(spy).toHaveBeenCalledWith('Will be edited', id);
+  });
 });

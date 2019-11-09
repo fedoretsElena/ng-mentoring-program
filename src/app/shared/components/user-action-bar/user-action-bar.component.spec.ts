@@ -22,4 +22,11 @@ describe('UserActionBarComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should call console.log after logout', () => {
+    const spy = spyOn(console, 'log');
+    component.logout();
+
+    expect(spy).toHaveBeenCalled();
+  });
 });

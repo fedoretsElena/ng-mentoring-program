@@ -22,4 +22,19 @@ describe('AddCourseBtnComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should call addCourse() after click on btn', () => {
+    const spy = spyOn(component, 'onAddNew');
+    const button = fixture.debugElement.nativeElement.querySelector('.btn-info');
+    button.click();
+
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call console.log after call onAddNew()', () => {
+    const spy = spyOn(console, 'log');
+    component.onAddNew();
+
+    expect(spy).toHaveBeenCalled();
+  });
 });

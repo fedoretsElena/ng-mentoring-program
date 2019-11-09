@@ -13,5 +13,7 @@ export class AddCourseBtnComponent implements OnInit {
   ngOnInit() {
   }
 
-  onAddNew(): void {}
+  onAddNew(): void {
+    console.log('Should open modal for adding new course');
+  }
 }

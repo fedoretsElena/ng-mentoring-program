@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { skip } from 'rxjs/operators';
 
 import { CoursesComponent } from './courses.component';
 import { SearchBarComponent } from '../search-bar';
@@ -77,5 +78,21 @@ describe('CoursesComponent', () => {
     fixture.detectChanges();
 
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should filter courses list when search changed', (done) => {
+    const q = '2';
+
+    component.courses$
+      .pipe(
+        skip(1)
+      )
+      .subscribe((res) => {
+        expect(res[0].title).toContain(q);
+
+        done();
+      });
+
+    component.onChangeSearch(q);
   });
 });
