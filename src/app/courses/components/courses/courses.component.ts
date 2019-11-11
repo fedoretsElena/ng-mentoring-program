@@ -4,7 +4,8 @@ import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { courses } from '../../mocks';
-import { Course } from '../../entitites';
+import { Course, ICourse } from '../../entitites';
+import { SearchByPipe } from '../../pipes';
 
 @Component({
   selector: 'cs-courses',
@@ -21,10 +22,12 @@ export class CoursesComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    const searchPipe = new SearchByPipe();
     const courses$ = of(courses);
-    this.courses$ = combineLatest([courses$, this.search$])
+
+    this.courses$ = combineLatest<[ICourse[], string]>([courses$, this.search$])
       .pipe(
-        map(([list, search]) => search ? list.filter(i => i.title.includes(search)) : list),
+        map(([list, search]) => searchPipe.transform(list, search)),
         map(items => items.map((i) => new Course(i)))
       );
   }
@@ -41,3 +44,4 @@ export class CoursesComponent implements OnInit {
     this.search.next(q);
   }
 }
+

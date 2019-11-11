@@ -14,18 +14,18 @@ describe('DurationPipe', () => {
   it('should return only hours if number multiple of 60', () => {
     const n = 120;
 
-    expect(pipe.transform(n)).toBe('2h ');
+    expect(pipe.transform(n)).toBe('2h');
   });
 
   it('should return only minutes if number less then 60', () => {
     const n = 59;
 
-    expect(pipe.transform(n)).toBe(`${n}m `);
+    expect(pipe.transform(n)).toBe(`${n}m`);
   });
 
   it('should return hours and minutes if number more then 60', () => {
     const n = 61;
 
-    expect(pipe.transform(n)).toBe(`1h 1m `);
+    expect(pipe.transform(n)).toBe(`1h 1m`);
   });
 });

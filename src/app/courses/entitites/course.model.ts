@@ -8,14 +8,13 @@ export interface ICourse {
 }
 
 export class Course implements ICourse {
-  id: number;
-  title: string;
-  topRated: boolean;
-  creationDate: Date;
-  duration: number;
-  description: string;
-
-  constructor(course) {
-    Object.assign(this, course);
-  }
+  constructor(
+    options: Partial<ICourse> = {},
+    public id: number = options.id || null,
+    public title: string = options.title || null,
+    public topRated: boolean = options.topRated || false,
+    public creationDate: Date | string = options.creationDate || new Date(),
+    public duration: number = options.duration || null,
+    public description: string = options.description || null
+  ) {}
 }
