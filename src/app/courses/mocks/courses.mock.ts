@@ -2,27 +2,24 @@ import { ICourse } from '../entitites';
 
 export const courses: ICourse[] = [{
   id: 1,
-  title: 'Video Course 1. NgRx Store',
-  description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci animi at beatae blanditiis debitis dolore ' +
-    'ea exercitationem id ipsam iusto libero molestiae mollitia, quas repellendus sint, ut velit? Perferendis, sequi!',
+  title: 'Angular JS for novice',
+  description: 'Angular - is one of the most famous and fast growing frameworks in our days.' +
+    ' This course will cover all topics needed to start your own Angular application.',
+  creationDate: '2019-11-02',
   duration: 59,
-  topRated: true,
-  creationDate: '2019-11-02'
+  topRated: true
 }, {
   id: 2,
-  title: 'Video Course 2. Angular SSR',
-  description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci animi at beatae blanditiis debitis dolore ' +
-    'ea exercitationem id ipsam iusto libero molestiae mollitia, quas repellendus sint, ut velit? Perferendis, sequi!Lorem ipsum Lorem ' +
-    'ipsum dolor sit amet, consectetur adipisicing elit. Adipisci animi at beatae blanditiis debitis dolore dolor sit ' +
-    'amet, consectetur adipisicing elit. Adipisci animi at beatae blanditiis debitis dolore ',
-  duration: 180,
-  creationDate: '2020-09-12'
+  title: 'Introduction to front-end fundamentals',
+  description: 'This training dives into the fundamentals of front-end web development by ' +
+    'getting familiar with HTML, CSS and JavaScript from the very basis.',
+  creationDate: '2020-09-12',
+  duration: 180
 }, {
   id: 3,
-  title: 'Video Course 3. Apollo GraphQL',
-  description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci animi at beatae blanditiis debitis dolore ' +
-    'ea exercitationem id ipsam iusto libero molestiae mollitia, quas repellendus sint, ut velit? ' +
-    'Perferendis, sequi! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci animi at beatae blanditiis debitis dolore ',
-  duration: 14,
-  creationDate: '2018-11-11'
+  title: 'Basis of presentation excellence',
+  description: 'This training session satisfies all the basic needs of junior public speaker: How to ' +
+    'start and finish - What to say; How to open your speech.',
+  creationDate: '2018-11-11',
+  duration: 14
 }];

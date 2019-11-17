@@ -1,0 +1,11 @@
+$light-grey: rgba(18, 21, 35, 0.08);
+
+.auth {
+  padding: 1.5rem;
+  margin-top: 10%;
+  max-width: 368px;
+
+  border-radius: 6px;
+  background: white;
+  box-shadow: 0 1px 24px 0 $light-grey;
+}

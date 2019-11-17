@@ -1,11 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
-import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { courses } from '../../mocks';
-import { Course, ICourse } from '../../entitites';
 import { SearchByPipe } from '../../pipes';
+import { CoursesService } from '../../services';
+import { Course, ICourse } from '../../entitites';
 
 @Component({
   selector: 'cs-courses',
@@ -16,14 +16,16 @@ import { SearchByPipe } from '../../pipes';
 export class CoursesComponent implements OnInit {
   courses$: Observable<Course[]>;
 
-  private search: BehaviorSubject<string> = new BehaviorSubject(null);
-  private search$: Observable<string> = this.search.asObservable();
+  private searchSink: BehaviorSubject<string> = new BehaviorSubject(null);
+  private search$: Observable<string> = this.searchSink.asObservable();
 
-  constructor() { }
+  constructor(
+    private coursesService: CoursesService
+  ) { }
 
   ngOnInit() {
     const searchPipe = new SearchByPipe();
-    const courses$ = of(courses);
+    const courses$ = this.coursesService.getList();
 
     this.courses$ = combineLatest<[ICourse[], string]>([courses$, this.search$])
       .pipe(
@@ -33,7 +35,7 @@ export class CoursesComponent implements OnInit {
   }
 
   onDeleteCourse(courseId: number): void {
-    console.log('This course should be deleted: ', courseId);
+    this.coursesService.removeItem(courseId).subscribe();
   }
 
   onLoadMore(): void {
@@ -41,7 +43,7 @@ export class CoursesComponent implements OnInit {
   }
 
   onChangeSearch(q: string): void {
-    this.search.next(q);
+    this.searchSink.next(q);
   }
 }
 

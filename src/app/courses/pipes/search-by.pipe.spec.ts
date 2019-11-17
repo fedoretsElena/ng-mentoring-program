@@ -14,8 +14,8 @@ describe('SearchByPipe', () => {
     expect(pipe).toBeTruthy();
   });
 
-  it('should return one course if search equal "1"', () => {
-    const search = 'NgRx Store';
+  it('should return one course if search equal "Angular"', () => {
+    const search = 'Angular';
 
     expect(pipe.transform(coursesList, search).length).toEqual(1);
   });

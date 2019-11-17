@@ -1,9 +1,10 @@
 
 <main class="main bg-light">
     <cs-header class="main__header"></cs-header>
-    <cs-breadcrumbs></cs-breadcrumbs>
+    <cs-breadcrumbs *ngIf="(isAuth$ | async) === false"></cs-breadcrumbs>
 
     <router-outlet></router-outlet>
 
     <cs-footer class="main__footer"></cs-footer>
+
 </main>

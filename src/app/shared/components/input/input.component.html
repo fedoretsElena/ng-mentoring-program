@@ -1,0 +1,20 @@
+<div class="form-group input mb-3">
+  <div class="d-flex justify-content-between">
+    <label
+      class="text-secondary font-weight-bold mb-1"
+      [for]="id"
+    >{{ label }}</label>
+    <span
+      class="input__info"
+      *ngIf="isRequired"
+    >*required</span>
+  </div>
+
+  <input
+    class="form-control"
+    [id]="id"
+    [value]="initial"
+    [required]="isRequired"
+    [placeholder]="placeholder"
+  >
+</div>

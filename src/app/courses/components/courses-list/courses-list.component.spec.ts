@@ -1,4 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MockDirective } from 'ng-mocks';
+import { SwalDirective } from '@sweetalert2/ngx-sweetalert2';
 
 import { CoursesListComponent } from './courses-list.component';
 import { CourseItemComponent } from '../course-item';
@@ -17,10 +19,11 @@ describe('CoursesListComponent', () => {
         CoursesListComponent,
         CourseItemComponent,
 
-        DateStatusDirective
+        DateStatusDirective,
+        MockDirective(SwalDirective)
       ],
       imports: [
-        SharedModule
+        SharedModule,
       ]
     })
     .compileComponents();
