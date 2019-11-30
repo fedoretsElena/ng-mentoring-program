@@ -11,6 +11,12 @@ describe('DurationPipe', () => {
     expect(pipe).toBeTruthy();
   });
 
+  it('should return empty string if value undefined', () => {
+    const n = undefined;
+
+    expect(pipe.transform(n).length).toBe(0);
+  });
+
   it('should return only hours if number multiple of 60', () => {
     const n = 120;
 

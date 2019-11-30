@@ -1,9 +1,27 @@
 @import "../../../../styles/custom/variables";
 
 .input {
+  position: relative;
+
+  &__el {
+    font-size: $base-font-size;
+
+    &::placeholder, &::-webkit-datetime-edit {
+      color: $placeholder-color;
+    }
+
+    &:hover + .date-icon {
+      display: none;
+    }
+  }
+
+  &__lbl {
+    font-weight: $font-weight-semibold;
+  }
 
   &__info {
     color: #6c7283;
+    font-size: $font-size-tiny;
   }
 }
 
@@ -13,4 +31,13 @@
     box-shadow: none;
     border-color: $info;
   }
+}
+
+.date-icon {
+  top: 2.2rem;
+  right: 13px;
+  position: absolute;
+
+  color: #a8a9b4;
+  font-size: $font-size-xxlarger;
 }

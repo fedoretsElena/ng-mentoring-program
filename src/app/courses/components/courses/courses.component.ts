@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -10,8 +10,7 @@ import { Course, ICourse } from '../../entitites';
 @Component({
   selector: 'cs-courses',
   templateUrl: './courses.component.html',
-  styleUrls: ['./courses.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./courses.component.scss']
 })
 export class CoursesComponent implements OnInit {
   courses$: Observable<Course[]>;
