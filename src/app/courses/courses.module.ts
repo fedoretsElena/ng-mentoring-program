@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
@@ -19,6 +20,7 @@ import { pipes } from './pipes';
   imports: [
     CommonModule,
     FormsModule,
+    RouterModule,
 
     SweetAlert2Module,
 

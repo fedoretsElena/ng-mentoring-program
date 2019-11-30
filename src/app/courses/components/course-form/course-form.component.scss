@@ -1,0 +1,25 @@
+@import '../../../../styles/custom/variables';;
+
+$md-input-width: 312px;
+$sm-input-width: 170px;
+$max-form-width: 731px;
+
+.course-form {
+  background: white;
+  max-width: $max-form-width;
+
+  &__title {
+    font-weight: $font-weight-semibold;
+  }
+
+  &__input {
+
+    &--sm {
+      max-width: $sm-input-width;
+    }
+
+    &--md {
+      max-width: $md-input-width;
+    }
+  }
+}

@@ -1,7 +1,7 @@
 <div class="form-group input mb-3">
   <div class="d-flex justify-content-between">
     <label
-      class="text-secondary font-weight-bold mb-1"
+      class="input__lbl text-secondary mb-1"
       [for]="id"
     >{{ label }}</label>
     <span
@@ -10,11 +10,29 @@
     >*required</span>
   </div>
 
-  <input
-    class="form-control"
-    [id]="id"
+  <ng-template #inputEl>
+    <input
+      class="input__el form-control"
+      [id]="id"
+      [type]="type"
+      [value]="initial"
+      [required]="isRequired"
+      [placeholder]="placeholder"
+      [ngModel]="control"
+    >
+    <i
+      class="date-icon far fa-calendar"
+      *ngIf="type === 'date'"
+    ></i>
+  </ng-template>
+
+  <textarea
+    class="input__el form-control"
+    rows="4"
     [value]="initial"
     [required]="isRequired"
     [placeholder]="placeholder"
-  >
+    *ngIf="textarea; else inputEl"
+  ></textarea>
+
 </div>

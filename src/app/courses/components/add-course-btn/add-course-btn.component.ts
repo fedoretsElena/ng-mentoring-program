@@ -1,19 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'cs-add-course-btn',
   templateUrl: './add-course-btn.component.html',
-  styleUrls: ['./add-course-btn.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./add-course-btn.component.scss']
 })
-export class AddCourseBtnComponent implements OnInit {
+export class AddCourseBtnComponent {
 
   constructor() { }
-
-  ngOnInit() {
-  }
-
-  onAddNew(): void {
-    console.log('Should open modal for adding new course');
-  }
 }

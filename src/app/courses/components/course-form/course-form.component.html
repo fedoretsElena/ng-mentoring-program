@@ -1,0 +1,65 @@
+<section class="p-4">
+  <form
+    class="course-form p-4 rounded mx-auto secondary-shadow"
+  >
+    <h4 class="course-form__title mb-3">New course</h4>
+
+    <cs-input
+      class="course-form__input"
+      label="Title:"
+      placeholder="Text input"
+      [initial]="courseForm.title"
+      [isRequired]="true"
+    ></cs-input>
+
+    <cs-input
+      class="course-form__input"
+      label="Description:"
+      placeholder="Add description"
+      [textarea]="true"
+      [initial]="courseForm.description"
+      [isRequired]="true"
+    ></cs-input>
+
+    <div class="d-flex align-items-center">
+      <cs-input
+        class="course-form__input--sm d-block mr-2 pr-1"
+        label="Duration:"
+        placeholder="minutes"
+        type="number"
+        [initial]="courseForm.duration"
+        [isRequired]="true"
+      ></cs-input>
+
+      <div class="duration"> {{ courseForm.duration | csDuration }} </div>
+    </div>
+
+    <cs-input
+      class="course-form__input--sm d-block"
+      label="Date:"
+      placeholder="mm-dd-yyyy"
+      type="date"
+      [initial]="courseForm.date"
+      [isRequired]="true"
+    ></cs-input>
+
+    <cs-input
+      class="course-form__input--md d-block"
+      label="Authors:"
+      placeholder="Start typing"
+      [initial]="courseForm.authors"
+      [isRequired]="true"
+    ></cs-input>
+
+    <div class="d-flex justify-content-end mt-4">
+      <button
+        class="btn btn-secondary btn-sm px-2"
+        [routerLink]="['/courses']"
+      >Cancel</button>
+      <button
+        class="btn btn-success  btn-sm px-2 ml-2 text-light"
+        (click)="onSubmit()"
+      >Save</button>
+    </div>
+  </form>
+</section>

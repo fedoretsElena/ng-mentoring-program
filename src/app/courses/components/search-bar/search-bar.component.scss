@@ -23,7 +23,7 @@
     }
 
     &::placeholder {
-      color: #c0c3ce;
+      color: $placeholder-color;
       letter-spacing: .2px;
     }
   }

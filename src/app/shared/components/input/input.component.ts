@@ -13,6 +13,12 @@ export class InputComponent {
   label: string;
 
   @Input()
+  textarea = false;
+
+  @Input()
+  type = 'text';
+
+  @Input()
   placeholder = '';
 
   @Input()

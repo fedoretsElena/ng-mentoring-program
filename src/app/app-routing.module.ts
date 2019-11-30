@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { CoursesComponent } from './courses/components';
+import { CoursesComponent, CourseFormComponent } from './courses/components';
 
 
 const routes: Routes = [{
@@ -10,7 +10,13 @@ const routes: Routes = [{
   redirectTo: 'courses'
 }, {
   path: 'courses',
-  component: CoursesComponent
+  children: [{
+    path: '',
+    component: CoursesComponent
+  }, {
+    path: 'new',
+    component: CourseFormComponent
+  }]
 }, {
   path: 'auth',
   loadChildren: () => import(`./auth/auth.module`).then(m => m.AuthModule)

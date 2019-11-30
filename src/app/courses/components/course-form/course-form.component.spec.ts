@@ -1,24 +1,27 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { AddCourseBtnComponent } from './add-course-btn.component';
+import { CourseFormComponent } from './course-form.component';
+import { SharedModule } from '../../../shared';
 
-describe('AddCourseBtnComponent', () => {
-  let component: AddCourseBtnComponent;
-  let fixture: ComponentFixture<AddCourseBtnComponent>;
+describe('CourseFormComponent', () => {
+  let component: CourseFormComponent;
+  let fixture: ComponentFixture<CourseFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddCourseBtnComponent ],
+      declarations: [ CourseFormComponent ],
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+
+        SharedModule
       ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddCourseBtnComponent);
+    fixture = TestBed.createComponent(CourseFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
