@@ -1,10 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
+import { SwalDirective } from '@sweetalert2/ngx-sweetalert2';
+import { MockDirective } from 'ng-mocks';
+
 import { CourseItemComponent } from './course-item.component';
-import { SharedModule } from '../../../shared';
 import { courses } from '../../mocks';
 import { Course } from '../../entitites';
+import { SharedModule } from '../../../shared';
 import { DateStatusDirective } from '../../directives';
 
 describe('CourseItemComponent', () => {
@@ -15,6 +18,7 @@ describe('CourseItemComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         CourseItemComponent,
+        MockDirective(SwalDirective),
 
         DateStatusDirective
       ],
@@ -51,12 +55,16 @@ describe('CourseItemComponent', () => {
     expect(component.course).toBeDefined();
   });
 
-  it('should raise own id when clicked (triggerEventHandler)', () => {
+  it('should raise own id after call onDelete method', (done) => {
     let selectedId: number;
-    const deleteBtn = fixture.debugElement.query(By.css('.course__delete-btn'));
-    component.delete.subscribe((id: number) => selectedId = id);
+    component.delete.subscribe((id: number) => {
+      selectedId = id;
 
-    deleteBtn.triggerEventHandler('click', null);
+      done();
+    });
+
+    component.onDelete();
+
     expect(selectedId).toBe(component.course.id);
   });
 

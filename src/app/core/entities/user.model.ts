@@ -1,15 +1,19 @@
 export interface IUser {
   id: number;
   firstName: string;
-  lasName: string;
+  lastName: string;
 }
 
 export class User implements IUser {
-  id: number;
-  firstName: string;
-  lasName: string;
+  constructor(
+    options: Partial<IUser> = {},
+    public id: number = options.id || null,
+    public firstName: string = options.firstName || null,
+    public lastName: string = options.lastName || null
+  ) {
+  }
 
-  constructor(data: IUser) {
-    Object.assign(data);
+  get fullName(): string {
+    return `${this.firstName} ${this.lastName}`;
   }
 }

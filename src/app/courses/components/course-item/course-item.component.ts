@@ -27,4 +27,13 @@ export class CourseItemComponent implements OnInit {
   onDelete(): void {
     this.delete.emit(this.course.id);
   }
+
+  getSwalConfig(): {[key: string]: any} {
+    return {
+      title: 'Do you really want to delete this course?',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No'
+    };
+  }
 }

@@ -8,12 +8,15 @@ describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
-        SharedModule
+        SharedModule,
+        RouterTestingModule.withRoutes([{
+          path: 'auth/login',
+          component: AppComponent
+        }])
       ],
       declarations: [
         AppComponent
-      ],
+      ]
     }).compileComponents();
   }));
 

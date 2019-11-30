@@ -1,0 +1,16 @@
+@import "../../../../styles/custom/variables";
+
+.input {
+
+  &__info {
+    color: #6c7283;
+  }
+}
+
+.form-control {
+
+  &:focus {
+    box-shadow: none;
+    border-color: $info;
+  }
+}
