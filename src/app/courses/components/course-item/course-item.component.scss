@@ -8,6 +8,11 @@
   background: white;
   border: 1px solid transparent;
 
+  &--top-rated {
+    color: white;
+    background: rgb(95, 92, 132);
+  }
+
   &__title {
     grid-column: 1 / 5;
   }
@@ -39,6 +44,3 @@
   }
 }
 
-.bg-green-light {
-  background: rgba($success, .04);
-}

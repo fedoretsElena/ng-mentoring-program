@@ -20,6 +20,10 @@ class MockLocalStorageService {
   getItem(key) {
     return this.store[key] || null;
   }
+
+  removeAll() {
+    this.store = {};
+  }
 }
 
 class MockRouter {
@@ -77,6 +81,14 @@ describe('AuthService', () => {
     });
   });
 
+  describe('isAuthenticated', () => {
+    it('should return true if localStorage contain token', () => {
+      localStorage.setItem('token', 'adsj6dsadFDS145fsd');
+
+      expect(service.isAuthenticated()).toBeTruthy();
+    });
+  });
+
   describe('isAuth$', () => {
     it('should return true if path contain auth', (done) => {
 
@@ -86,6 +98,17 @@ describe('AuthService', () => {
 
           done();
         });
+    });
+  });
+
+  describe('logout', () => {
+    it('should reset localStorage', () => {
+      const lsSpy = spyOn(localStorage, 'removeAll');
+
+      service.logout();
+
+      expect(lsSpy).toHaveBeenCalled();
+      expect(service.isAuthenticated()).toBeFalsy();
     });
   });
 

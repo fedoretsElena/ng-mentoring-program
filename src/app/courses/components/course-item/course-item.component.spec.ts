@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { SwalDirective } from '@sweetalert2/ngx-sweetalert2';
 import { MockDirective } from 'ng-mocks';
@@ -23,6 +23,8 @@ describe('CourseItemComponent', () => {
         DateStatusDirective
       ],
       imports: [
+        RouterTestingModule,
+
         SharedModule
       ]
     })
@@ -38,7 +40,8 @@ describe('CourseItemComponent', () => {
       topRated: false,
       title: 'Test course',
       creationDate: new Date(),
-      description: 'Once upon a time..'
+      description: 'Once upon a time..',
+      authors: []
     };
 
     fixture.detectChanges();

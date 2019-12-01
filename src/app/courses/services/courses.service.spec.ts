@@ -29,15 +29,14 @@ describe('CoursesService', () => {
 
   describe('createCourse', () => {
     it('should add new course to beginning', (done) => {
-      const course = {id: 6} as ICourse;
+      const course = {title: 'test'} as ICourse;
 
       service.courses$
         .pipe(
           skip(1)
         )
         .subscribe((list) => {
-          expect(list.length).toBe(courses.length + 1);
-          expect(list[0].id).toBe(6);
+          expect(list[0].title).toBe('test');
           done();
         });
 

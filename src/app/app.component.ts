@@ -1,7 +1,6 @@
 import {
   Component
 } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 
@@ -16,13 +15,8 @@ export class AppComponent {
   isAuth$: Observable<boolean>;
 
   constructor(
-    private authService: AuthService,
-    private router: Router
+    private authService: AuthService
   ) {
     this.isAuth$ = this.authService.isAuth$();
-
-    if (!this.authService.isAuthenticated()) {
-      this.router.navigate(['auth/login']);
-    }
   }
 }

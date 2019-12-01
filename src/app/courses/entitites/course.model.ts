@@ -4,6 +4,7 @@ export interface ICourse {
   duration: number;
   description: string;
   topRated?: boolean;
+  authors?: string[];
   creationDate: Date | string;
 }
 
@@ -15,6 +16,7 @@ export class Course implements ICourse {
     public topRated: boolean = options.topRated || false,
     public creationDate: Date | string = options.creationDate || new Date(),
     public duration: number = options.duration || null,
-    public description: string = options.description || null
+    public description: string = options.description || null,
+    public authors: string[] = options.authors || []
   ) {}
 }
