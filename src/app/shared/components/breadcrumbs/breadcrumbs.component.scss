@@ -1,5 +1,13 @@
 @import "../../../../styles/custom/variables";
 
-h6 {
+.breadcrumbs {
   font-size: $base-font-size;
+
+  & > *:last-child {
+    font-weight: $font-weight-semibold;
+  }
+
+  & > *:not(:last-child, :hover) {
+    color: $light-grey;
+  }
 }

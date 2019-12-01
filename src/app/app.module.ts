@@ -7,18 +7,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { SharedModule } from './shared';
-import { CoursesModule } from './courses';
+import { PageNotFoundComponent } from './components';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
     SweetAlert2Module.forRoot(),
 
     SharedModule,
-    CoursesModule,
 
     AppRoutingModule
   ],

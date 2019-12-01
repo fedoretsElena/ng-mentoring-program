@@ -17,9 +17,10 @@ $info: #30b6dd;
 $light: #f2f3f7;
 $danger: #ff4e33;
 
-$light-grey: rgba(18, 21, 35, 0.08); // #121523
+$light-grey: #868996;
+$dark-grey: rgba(18, 21, 35, 0.08); // #121523
 
 $placeholder-color: #c0c3ce;
 
 $primary-box-shadow: 0 0 1rem #e8e8e8;
-$secondary-box-shadow: 0 1px 24px 0 $light-grey;
+$secondary-box-shadow: 0 1px 24px 0 $dark-grey;

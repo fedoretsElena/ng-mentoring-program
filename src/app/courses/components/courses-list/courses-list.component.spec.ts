@@ -1,4 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+
 import { MockDirective } from 'ng-mocks';
 import { SwalDirective } from '@sweetalert2/ngx-sweetalert2';
 
@@ -23,6 +25,8 @@ describe('CoursesListComponent', () => {
         MockDirective(SwalDirective)
       ],
       imports: [
+        RouterTestingModule,
+
         SharedModule,
       ]
     })

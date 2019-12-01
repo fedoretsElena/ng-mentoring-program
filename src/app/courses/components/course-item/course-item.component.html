@@ -2,7 +2,7 @@
   class="course w-100 p-4 rounded primary-shadow"
   csDateStatus
   [date]="course.creationDate"
-  [ngClass]="{ 'bg-green-light': course.topRated }"
+  [ngClass]="{ 'course--top-rated': course.topRated }"
 >
   <h4 class="course__title d-flex align-items-center font-weight-bold mb-0">
     {{ course.title | uppercase }}
@@ -27,7 +27,7 @@
   <div class="d-flex align-items-center mb-2 course__btns">
     <button
       class="course__btn btn btn-info btn-sm px-3"
-      (click)="onEdit(course.id)"
+      [routerLink]="['/courses', course.id]"
     >
       <i class="fas fa-pen pr-1"></i> Edit </button>
 

@@ -1,8 +1,17 @@
 <section class="bg-white py-4">
-  <div class="container">
-    <!--It will be changed, and generate automatically using route value -->
-    <h6 class="font-weight-bold mb-0">
-      <a routerLink="courses">Courses</a>
+  <div class="container text-capitalize">
+    <h6 class="breadcrumbs mb-0  d-flex align-items-center">
+      <ng-container *ngFor="let route of routes, let last = last">
+        <a [routerLink]="route"
+           *ngIf="!last"
+        >{{ route }}</a>
+
+        <ng-container *ngIf="!last">
+          <span class="text-info px-1">/</span>
+        </ng-container>
+
+        <span *ngIf="last">{{ route }}</span>
+      </ng-container>
     </h6>
   </div>
 </section>

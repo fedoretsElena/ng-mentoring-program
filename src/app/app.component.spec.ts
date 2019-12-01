@@ -3,6 +3,14 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared';
+import { AuthService } from './core/services';
+import { of } from 'rxjs';
+
+class MockAuthService {
+  isAuth$() {
+    return of(true);
+  }
+}
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -16,7 +24,11 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent
-      ]
+      ],
+      providers: [{
+        provide: AuthService,
+        useClass: MockAuthService
+      }]
     }).compileComponents();
   }));
 

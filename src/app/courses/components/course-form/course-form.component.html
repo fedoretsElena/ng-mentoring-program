@@ -2,7 +2,7 @@
   <form
     class="course-form p-4 rounded mx-auto secondary-shadow"
   >
-    <h4 class="course-form__title mb-3">New course</h4>
+    <h4 class="course-form__title mb-3">{{ isCreateMode ? 'New' : 'Edit' }} course</h4>
 
     <cs-input
       class="course-form__input"
@@ -39,7 +39,7 @@
       label="Date:"
       placeholder="mm-dd-yyyy"
       type="date"
-      [initial]="courseForm.date"
+      [initial]="courseForm.creationDate"
       [isRequired]="true"
     ></cs-input>
 
@@ -58,7 +58,7 @@
       >Cancel</button>
       <button
         class="btn btn-success  btn-sm px-2 ml-2 text-light"
-        (click)="onSubmit()"
+        (click)="onSubmit(courseForm)"
       >Save</button>
     </div>
   </form>

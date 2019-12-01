@@ -1,0 +1,20 @@
+.swal2-popup {
+  &.swal2-modal {
+    padding: 1rem;
+  }
+
+  .swal2 {
+
+    &-title {
+      font-size: $font-size-xxlarger;
+    }
+
+    &-styled {
+      padding: 4px 16px;
+    }
+
+    &-actions {
+      margin-top: .5rem;
+    }
+  }
+}

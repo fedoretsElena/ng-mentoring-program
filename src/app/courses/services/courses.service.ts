@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, mapTo, tap, withLatestFrom } from 'rxjs/operators';
 
 import { Course, ICourse } from '../entitites';
@@ -12,7 +12,11 @@ import { courses } from '../mocks';
 
 export class CoursesService {
   private coursesSink: BehaviorSubject<ICourse[]> = new BehaviorSubject([...courses]);
+
   courses$: Observable<ICourse[]> = this.coursesSink.asObservable();
+
+  // for breadcrumbs title name
+  currCourse: Course;
 
   constructor() {
   }
@@ -24,7 +28,9 @@ export class CoursesService {
       );
   }
 
-  createCourse(course: ICourse): Observable<Course> {
+  createCourse(course: Partial<ICourse>): Observable<Course> {
+    course.id = +new Date();
+
     return of(course)
       .pipe(
         withLatestFrom(this.courses$),
@@ -34,7 +40,7 @@ export class CoursesService {
       );
   }
 
-  getItemById(id: number): Observable<Course | Observable<never>> {
+  getItemById(id: number): Observable<Course> {
     return of(id)
       .pipe(
         withLatestFrom(this.courses$),
@@ -46,7 +52,8 @@ export class CoursesService {
           }
 
           throw new Error(`Course with id ${id} does not exist.`);
-        })
+        }),
+        tap(course => this.currCourse = course)
       );
   }
 
