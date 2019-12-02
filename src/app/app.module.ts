@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 
 import { SharedModule } from './shared';
 import { PageNotFoundComponent } from './components';
+import { CoursesModule } from './courses';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { PageNotFoundComponent } from './components';
     SweetAlert2Module.forRoot(),
 
     SharedModule,
+    CoursesModule,
 
     AppRoutingModule
   ],
