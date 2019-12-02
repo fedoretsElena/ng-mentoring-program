@@ -27,4 +27,16 @@ describe('InputComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should emit output after change input', (done) => {
+    const value = 'test value';
+
+    component.changeValue.subscribe((received) => {
+      expect(received).toBe(value);
+
+      done();
+    });
+
+    component.onModelChanged(value);
+  });
 });

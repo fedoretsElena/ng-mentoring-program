@@ -31,7 +31,7 @@ describe('LoginComponent', () => {
         useClass: MockAuthService
       }]
     })
-      .compileComponents();
+    .compileComponents();
   }));
 
   beforeEach(() => {
@@ -61,5 +61,13 @@ describe('LoginComponent', () => {
 
     expect(serviceSpy).toHaveBeenCalledWith(loginForm);
     expect(routerSpy).toHaveBeenCalledWith(['/courses']);
+  });
+
+  it('should change form value after call onChange output', () => {
+    const key = 'email';
+    const value = 'test1';
+    component.onChange(value, key);
+
+    expect(component.loginForm[key]).toBe(value);
   });
 });

@@ -6,7 +6,8 @@
   &__el {
     font-size: $base-font-size;
 
-    &::placeholder, &::-webkit-datetime-edit {
+    //  &::-webkit-datetime-edit
+    &::placeholder {
       color: $placeholder-color;
     }
 

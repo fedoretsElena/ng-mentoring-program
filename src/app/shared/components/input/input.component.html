@@ -15,9 +15,10 @@
       class="input__el form-control"
       [id]="id"
       [type]="type"
-      [value]="initial"
       [required]="isRequired"
       [placeholder]="placeholder"
+      [(ngModel)]="control"
+      (ngModelChange)="onModelChanged($event)"
     >
     <i
       class="date-icon far fa-calendar"
@@ -28,9 +29,10 @@
   <textarea
     class="input__el form-control"
     rows="4"
-    [value]="initial"
     [required]="isRequired"
     [placeholder]="placeholder"
+    [(ngModel)]="control"
+    (ngModelChange)="onModelChanged($event)"
     *ngIf="textarea; else inputEl"
   ></textarea>
 

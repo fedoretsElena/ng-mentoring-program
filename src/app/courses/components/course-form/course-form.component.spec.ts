@@ -90,5 +90,13 @@ describe('CourseFormComponent', () => {
       expect(createSpy).toHaveBeenCalled();
       expect(routerValueSpy.navigate).toHaveBeenCalledWith(['/courses']);
     });
+
+    it('should change form value after call onChange output', () => {
+      const key = 'title';
+      const value = 'Angular';
+      component.onChange(value, key);
+
+      expect(component.courseForm[key]).toBe(value);
+    });
   });
 });

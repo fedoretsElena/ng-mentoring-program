@@ -23,6 +23,10 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
+  onChange(value: string, key: string): void {
+    this.loginForm[key] = value;
+  }
+
   onSubmit($event): void {
     $event.preventDefault();
 

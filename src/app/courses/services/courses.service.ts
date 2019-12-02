@@ -45,7 +45,7 @@ export class CoursesService {
       .pipe(
         withLatestFrom(this.courses$),
         map(([course, list]) => {
-          const item = list.find(i => i.id === id);
+          const item = list.find(i => i.id === course);
 
           if (item) {
             return new Course(item);

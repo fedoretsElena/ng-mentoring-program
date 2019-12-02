@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'cs-input',
@@ -8,6 +8,9 @@ import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 })
 export class InputComponent {
   id = Math.round(Math.random() * +new Date());
+
+  @Output()
+  changeValue: EventEmitter<string> = new EventEmitter<string>();
 
   @Input()
   label: string;
@@ -27,6 +30,7 @@ export class InputComponent {
   @Input()
   control;
 
-  @Input()
-  initial: string;
+  onModelChanged(v: string): void {
+    this.changeValue.emit(v);
+  }
 }

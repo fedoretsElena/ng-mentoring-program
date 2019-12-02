@@ -35,6 +35,10 @@ export class CourseFormComponent implements OnInit {
     source$.subscribe(() => this.router.navigate(['/courses']));
   }
 
+  onChange(value: string, key: string): void {
+    this.courseForm[key] = value;
+  }
+
   private checkCourseDataFromResolver() {
     const { course } = this.route.snapshot.data;
 

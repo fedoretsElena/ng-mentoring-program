@@ -8,8 +8,9 @@
       class="course-form__input"
       label="Title:"
       placeholder="Text input"
-      [initial]="courseForm.title"
+      [control]="courseForm.title"
       [isRequired]="true"
+      (changeValue)="onChange($event, 'title')"
     ></cs-input>
 
     <cs-input
@@ -17,8 +18,9 @@
       label="Description:"
       placeholder="Add description"
       [textarea]="true"
-      [initial]="courseForm.description"
+      [control]="courseForm.description"
       [isRequired]="true"
+      (changeValue)="onChange($event, 'description')"
     ></cs-input>
 
     <div class="d-flex align-items-center">
@@ -27,8 +29,9 @@
         label="Duration:"
         placeholder="minutes"
         type="number"
-        [initial]="courseForm.duration"
+        [control]="courseForm.duration"
         [isRequired]="true"
+        (changeValue)="onChange($event, 'duration')"
       ></cs-input>
 
       <div class="duration"> {{ courseForm.duration | csDuration }} </div>
@@ -39,16 +42,18 @@
       label="Date:"
       placeholder="mm-dd-yyyy"
       type="date"
-      [initial]="courseForm.creationDate"
+      [control]="courseForm.creationDate"
       [isRequired]="true"
+      (changeValue)="onChange($event, 'creationDate')"
     ></cs-input>
 
     <cs-input
       class="course-form__input--md d-block"
       label="Authors:"
       placeholder="Start typing"
-      [initial]="courseForm.authors"
+      [control]="courseForm.authors"
       [isRequired]="true"
+      (changeValue)="onChange($event, 'authors')"
     ></cs-input>
 
     <div class="d-flex justify-content-end mt-4">

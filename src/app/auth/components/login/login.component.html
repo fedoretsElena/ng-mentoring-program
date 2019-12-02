@@ -8,13 +8,15 @@
     class="login-form__input"
     label="E-mail:"
     placeholder="Enter e-mail"
-    [initial]="loginForm.email"
+    [control]="loginForm.email"
+    (changeValue)="onChange($event, 'email')"
   ></cs-input>
   <cs-input
     class="login-form__input"
     label="Password:"
     placeholder="Enter password"
-    [initial]="loginForm.password"
+    (changeValue)="onChange($event, 'password')"
+    [control]="loginForm.password"
   ></cs-input>
 
   <div class="d-flex justify-content-between align-items-center mt-4">
