@@ -17,10 +17,6 @@ export class CourseItemComponent {
 
   constructor() { }
 
-  onEdit(id: number): void {
-    console.log('Will be edited', id);
-  }
-
   onDelete(): void {
     this.delete.emit(this.course.id);
   }
