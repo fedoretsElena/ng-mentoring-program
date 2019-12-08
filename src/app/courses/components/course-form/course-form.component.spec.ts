@@ -20,7 +20,9 @@ class MockCoursesService {
 const mockRoute = {
   snapshot: {
     data: {
-      course: {}
+      course: {
+        creationDate: new Date()
+      }
     }
   }
 };

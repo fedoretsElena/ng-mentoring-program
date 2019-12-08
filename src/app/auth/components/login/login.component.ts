@@ -10,8 +10,8 @@ import { AuthService } from '../../../core';
 })
 export class LoginComponent implements OnInit {
   loginForm = {
-    email: 'test@gmail.com',
-    password: 'qazxsw1!'
+    login: 'Morales',
+    password: 'id'
   };
 
   constructor(

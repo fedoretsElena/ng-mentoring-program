@@ -37,7 +37,7 @@ describe('CourseItemComponent', () => {
     component.course = {
       id: 1,
       duration: 123,
-      topRated: false,
+      isTopRated: false,
       title: 'Test course',
       creationDate: new Date(),
       description: 'Once upon a time..',

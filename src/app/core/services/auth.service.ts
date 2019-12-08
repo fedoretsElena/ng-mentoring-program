@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { filter, map, pluck } from 'rxjs/operators';
+import { filter, map, pluck, switchMap, tap } from 'rxjs/operators';
 
-import { User } from '../entities';
-import { mockToken, mockUser } from '../mocks';
+import { IUser, User } from '../entities';
 import { LocalStorageService } from './local-storage.service';
+import { ApiConfig } from './api-config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +23,13 @@ export class AuthService {
 
   constructor(
     private router: Router,
+    private http: HttpClient,
     private localStorage: LocalStorageService,
   ) {
+  }
+
+  getToken(): string {
+    return this.localStorage.getItem(this.TOKEN_KEY);
   }
 
   isAuth$(): Observable<boolean> {
@@ -35,14 +41,22 @@ export class AuthService {
       );
   }
 
-  login(data: { email: string, password: string }): Observable<boolean> {
-    // here will be http request
-    this.localStorage.setItem(this.USER_KEY, mockUser);
-    this.localStorage.setItem(this.TOKEN_KEY, mockToken);
+  login(data: { login: string, password: string }): Observable<User> {
+    return this.http.post(ApiConfig.LOGIN_URL, data)
+      .pipe(
+        pluck('token'),
+        switchMap((token: string) => this.getUser(token))
+      );
+  }
 
-    this.userSink.next(new User(mockUser));
-
-    return of(true);
+  getUser(token: string): Observable<User> {
+    return this.http.post(ApiConfig.USER_INFO_URL, {token})
+      .pipe(
+        tap((user: IUser) => this.localStorage.setItem(this.USER_KEY, user)),
+        tap(({ fakeToken }) => this.localStorage.setItem(this.TOKEN_KEY, fakeToken)),
+        map((user: IUser) => new User(user)),
+        tap((user: User) => this.userSink.next(user))
+      );
   }
 
   logout(): Observable<boolean> {

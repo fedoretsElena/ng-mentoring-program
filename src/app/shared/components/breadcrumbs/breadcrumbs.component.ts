@@ -48,7 +48,7 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
     const last = routes[routes.length - 1];
 
     if (!isNaN(+last)) {
-      const {title} = this.coursesService.currCourse;
+      const { title } = this.coursesService.currCourse;
       routes[routes.length - 1] = title;
     }
 

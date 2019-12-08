@@ -18,4 +18,8 @@ describe('OrderByPipe', () => {
 
     expect(oldestCourse.id).toBe(3);
   });
+
+  it('should return empty array if value does not exist', () => {
+    expect(pipe.transform(null)).toEqual([]);
+  });
 });

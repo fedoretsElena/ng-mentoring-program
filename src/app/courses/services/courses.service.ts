@@ -1,89 +1,85 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map, mapTo, tap, withLatestFrom } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, of, throwError } from 'rxjs';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 
-import { Course, ICourse } from '../entitites';
-import { courses } from '../mocks';
+import { Course, Filters, ICourse, IExtendedCourse } from '../entitites';
+import { ApiConfig } from '../../core/services';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class CoursesService {
-  private coursesSink: BehaviorSubject<ICourse[]> = new BehaviorSubject([...courses]);
+  private filtersSink: BehaviorSubject<Filters> = new BehaviorSubject({
+    count: 5,
+    start: 0
+  });
 
-  courses$: Observable<ICourse[]> = this.coursesSink.asObservable();
+  private removeCourseSink: BehaviorSubject<void> = new BehaviorSubject(null);
+  private removeCourse$: Observable<void> = this.removeCourseSink.asObservable();
+
+  filters$: Observable<Filters> = this.filtersSink.asObservable();
+  courses$: Observable<Course[]> = combineLatest([this.filters$, this.removeCourse$])
+    .pipe(
+      mergeMap(([filters]) => this.getList(filters))
+    );
 
   // for breadcrumbs title name
   currCourse: Course;
 
-  constructor() {
-  }
+  constructor(
+    private http: HttpClient
+  ) {}
 
-  getList(): Observable<Course[]> {
-    return this.courses$
+  getList(filters: Filters = {}): Observable<Course[]> {
+    let params = new HttpParams();
+
+    for (const key of Object.keys(filters)) {
+      params = params.append(key, filters[key]);
+    }
+
+    return this.http.get(ApiConfig.COURSES_BASE_URL, {params})
       .pipe(
         map((items: ICourse[]) => items.map((i) => new Course(i)))
       );
   }
 
-  createCourse(course: Partial<ICourse>): Observable<Course> {
-    course.id = +new Date();
-
-    return of(course)
-      .pipe(
-        withLatestFrom(this.courses$),
-        map(([item, list]) => [item, ...list]),
-        tap((list: ICourse[]) => this.updateCoursesList(list)),
-        mapTo(new Course(course))
-      );
+  createCourse(course: Partial<ICourse>): Observable<object> {
+    return this.http.post(ApiConfig.COURSES_BASE_URL, this.prepareData(course));
   }
 
   getItemById(id: number): Observable<Course> {
-    return of(id)
+    return this.http.get(ApiConfig.COURSES_BASE_URL + id)
       .pipe(
-        withLatestFrom(this.courses$),
-        map(([course, list]) => {
-          const item = list.find(i => i.id === course);
-
-          if (item) {
-            return new Course(item);
-          }
-
-          throw new Error(`Course with id ${id} does not exist.`);
-        }),
-        tap(course => this.currCourse = course)
+        map((course: ICourse) => new Course(course)),
+        tap(course => this.currCourse = course),
+        catchError(() => throwError(`Error: Course with id ${id} does not exist.`))
       );
   }
 
-  updateItem(item: Partial<ICourse>): Observable<Course> {
-    return of(item)
-      .pipe(
-        withLatestFrom(this.courses$),
-        map(([course, list]) => {
-          const inx = list.findIndex(i => i.id === course.id);
-          const newCourse = {...list[inx], ...course};
+  updateItem(item: Partial<ICourse>): Observable<object> {
+    return this.http.patch(ApiConfig.COURSES_BASE_URL + item.id, this.prepareData(item));
+  }
 
-          list[inx] = newCourse;
-          return list;
-        }),
-        tap((list: ICourse[]) => this.updateCoursesList(list)),
-        mapTo(new Course(item))
+  removeItem(id: number): Observable<object> {
+    return this.http.delete(ApiConfig.COURSES_BASE_URL + id)
+      .pipe(
+        tap(() => this.removeCourseSink.next())
       );
   }
 
-  removeItem(id: number): Observable<null> {
-    return of(id)
-      .pipe(
-        withLatestFrom(this.courses$),
-        map(([courseId, list]) => list.filter(course => course.id !== courseId)),
-        tap((list: ICourse[]) => this.updateCoursesList(list)),
-        mapTo(null)
-      );
+  onFiltersChange(filters: Partial<Filters>): void {
+    this.filtersSink.next(filters);
   }
 
-  private updateCoursesList(list: ICourse[]): void {
-    this.coursesSink.next(list);
+  private prepareData(course: Partial<ICourse>): Partial<IExtendedCourse> {
+    return {
+      ...course,
+      length: +course.duration,
+      date: course.creationDate,
+      name: course.title
+    };
   }
 }

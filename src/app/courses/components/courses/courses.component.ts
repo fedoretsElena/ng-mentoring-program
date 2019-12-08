@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
-import { SearchByPipe } from '../../pipes';
 import { CoursesService } from '../../services';
-import { Course, ICourse } from '../../entitites';
+import { Course, Filters } from '../../entitites';
 
 @Component({
   selector: 'cs-courses',
@@ -13,24 +12,24 @@ import { Course, ICourse } from '../../entitites';
   styleUrls: ['./courses.component.scss']
 })
 export class CoursesComponent implements OnInit {
-  courses$: Observable<Course[]>;
+  isNextPageExist = true;
+  courses$: Observable<Course[]> = this.coursesService.courses$
+    .pipe(
+      tap((list) => this.isNextPageExist = this.filters.count <= list.length)
+    );
 
-  private searchSink: BehaviorSubject<string> = new BehaviorSubject(null);
-  private search$: Observable<string> = this.searchSink.asObservable();
+  private filters: Filters = {
+    count: 5,
+    start: 0
+  };
 
   constructor(
     private coursesService: CoursesService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
-    const searchPipe = new SearchByPipe();
-    const courses$ = this.coursesService.getList();
-
-    this.courses$ = combineLatest<[ICourse[], string]>([courses$, this.search$])
-      .pipe(
-        map(([list, search]) => searchPipe.transform(list, search)),
-        map(items => items.map((i) => new Course(i)))
-      );
+    this.coursesService.onFiltersChange(this.filters);
   }
 
   onDeleteCourse(courseId: number): void {
@@ -38,11 +37,18 @@ export class CoursesComponent implements OnInit {
   }
 
   onLoadMore(): void {
-    console.log('Load more pls!');
+    const limit = 5;
+    this.onChangeFilters(this.filters.count + limit, 'count');
   }
 
-  onChangeSearch(q: string): void {
-    this.searchSink.next(q);
+  onChangeSearch(query: string): void {
+    this.onChangeFilters(query, 'textFragment');
+  }
+
+  private onChangeFilters(value: number | string, key: string) {
+    this.filters[key]  = value;
+
+    this.coursesService.onFiltersChange(this.filters);
   }
 }
 

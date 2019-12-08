@@ -14,4 +14,16 @@ describe('CourseModel', () => {
 
     expect(course.id).toBe(1);
   });
+
+  it('should create an instance with authors array if it defined inside options', () => {
+    const course = new Course({
+      authors: [{
+        id: 1,
+        name: 'Stasya',
+        lastName: 'Levkina'
+      }]
+    });
+
+    expect(course.authors[0].fullName).toBe('Stasya Levkina');
+  });
 });
