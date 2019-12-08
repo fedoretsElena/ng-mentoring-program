@@ -1,13 +1,14 @@
+import { NavigationEnd, Router } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NavigationEnd, Router } from '@angular/router';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { of } from 'rxjs';
-import { skip } from 'rxjs/operators';
 
 import { AuthService } from './auth.service';
 import { LocalStorageService } from './local-storage.service';
-import { mockUser } from '../mocks';
+import { ApiConfig } from './api-config.service';
+import { mockToken } from '../mocks';
 import { User } from '../entities';
 
 class MockLocalStorageService {
@@ -38,11 +39,13 @@ class MockRouter {
 describe('AuthService', () => {
   let localStorage: LocalStorageService;
   let service: AuthService;
+  let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        HttpClientTestingModule
       ],
       providers: [{
         provide: LocalStorageService,
@@ -55,6 +58,7 @@ describe('AuthService', () => {
 
     service = TestBed.get(AuthService);
     localStorage = TestBed.get(LocalStorageService);
+    httpMock = TestBed.get(HttpTestingController);
   });
 
   it('should be created', () => {
@@ -62,22 +66,38 @@ describe('AuthService', () => {
   });
 
   describe('login', () => {
-    it('should save data to LS after login() emit', (done) => {
+    it('should call getUserInfo request with token after successful login', () => {
+      const getUserSpy = spyOn(service, 'getUser').and.returnValue(of({} as User));
+      const token = mockToken;
+
+      service.login({login: 'some@gm.com', password: 'qweasd23'})
+        .subscribe();
+
+      const req = httpMock.expectOne(ApiConfig.LOGIN_URL);
+      expect(req.request.method).toBe('POST');
+      req.flush({token});
+
+      expect(getUserSpy).toHaveBeenCalledWith(token);
+    });
+  });
+
+  describe('getUser', () => {
+    it('should save data to LS after success getUser request', () => {
       const lsSpy = spyOn(localStorage, 'setItem');
-      const expectedUserInfo = new User(mockUser);
+      const mockUser = {
+        fakeToken: mockToken,
+        id: 1
+      };
 
-      service.getUserInfo$
-        .pipe(
-          skip(1)
-        )
-        .subscribe((user: User) => {
-          expect(user).toEqual(expectedUserInfo);
-          done();
-        });
+      service.getUser('fsgEgrqv5tfgqG4rtgG')
+        .subscribe();
 
-      service.login({email: 'some@gm.com', password: 'qweasd23'});
+      const req = httpMock.expectOne(ApiConfig.USER_INFO_URL);
+      expect(req.request.method).toBe('POST');
+      req.flush(mockUser);
 
       expect(lsSpy).toHaveBeenCalledWith('user', mockUser);
+      expect(lsSpy).toHaveBeenCalledWith('token', mockUser.fakeToken);
     });
   });
 
@@ -112,6 +132,16 @@ describe('AuthService', () => {
     });
   });
 
+  describe('getToken', () => {
+    it('should return token from localStorage', () => {
+      const token = mockToken;
+
+      localStorage.setItem('token', token);
+
+      expect(service.getToken()).toBe(token);
+    });
+  });
+
   describe('getUserInfo', () => {
     it('should return null if localStorage does not have userInfo', (done) => {
 
@@ -122,5 +152,9 @@ describe('AuthService', () => {
           done();
         });
     });
+  });
+
+  afterEach(() => {
+    httpMock.verify();
   });
 });

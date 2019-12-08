@@ -2,14 +2,14 @@
   class="course w-100 p-4 rounded primary-shadow"
   csDateStatus
   [date]="course.creationDate"
-  [ngClass]="{ 'course--top-rated': course.topRated }"
+  [ngClass]="{ 'course--top-rated': course.isTopRated }"
 >
   <h4 class="course__title d-flex align-items-center font-weight-bold mb-0">
     {{ course.title | uppercase }}
 
     <i
       class="fa fa-star text-warning ml-2"
-      *ngIf="course.topRated"
+      *ngIf="course.isTopRated"
     ></i>
   </h4>
 

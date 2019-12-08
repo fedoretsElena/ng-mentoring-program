@@ -22,6 +22,8 @@ import { courses } from '../../mocks';
 import { Course } from '../../entitites';
 
 class MockCoursesService {
+  courses$ = of(courses.map((c) => new Course(c)));
+
   removeItem(id: number): Observable<null> {
     return of(null);
   }
@@ -29,6 +31,8 @@ class MockCoursesService {
   getList() {
     return of(courses.map(c => new Course(c)));
   }
+
+  onFiltersChange(filters) {}
 }
 
 describe('CoursesComponent', () => {
@@ -88,12 +92,12 @@ describe('CoursesComponent', () => {
     expect(coursesServiceSpy).toHaveBeenCalledWith(id);
   });
 
-  it('should log msg after call onLoad method', () => {
-    const consoleLogSpy = spyOn(console, 'log');
+  it('should call onChangeFilters() with new filter value', () => {
+    const onChangeFiltersSpy = spyOn<any>(component, 'onChangeFilters');
 
     component.onLoadMore();
 
-    expect(consoleLogSpy).toHaveBeenCalled();
+    expect(onChangeFiltersSpy).toHaveBeenCalledWith( 10, 'count');
   });
 
   it('should call onLoad after click on load button', () => {
@@ -107,19 +111,12 @@ describe('CoursesComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should filter courses list when search changed', (done) => {
-    const q = 'Angular';
+  it('should call onChangeFilters() after change search', () => {
+    const onChangeFiltersSpy = spyOn<any>(component, 'onChangeFilters');
+    const query = 'Nickelodeon';
 
-    component.courses$
-      .pipe(
-        skip(1)
-      )
-      .subscribe((res) => {
-        expect(res[0].title).toContain(q);
+    component.onChangeSearch(query);
 
-        done();
-      });
-
-    component.onChangeSearch(q);
+    expect(onChangeFiltersSpy).toHaveBeenCalledWith( query, 'textFragment');
   });
 });

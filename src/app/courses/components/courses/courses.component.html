@@ -18,6 +18,7 @@
       <div
         class="load-more-btn rounded text-uppercase btn-link text-info text-center mt-4 p-3 link primary-shadow"
         (click)="onLoadMore()"
+        *ngIf="isNextPageExist"
       >load more</div>
     </ng-container>
 

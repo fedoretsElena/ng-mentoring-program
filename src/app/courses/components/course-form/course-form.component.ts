@@ -23,7 +23,8 @@ export class CourseFormComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private coursesService: CoursesService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.checkCourseDataFromResolver();
@@ -44,7 +45,10 @@ export class CourseFormComponent implements OnInit {
 
     if (course) {
       this.isCreateMode = false;
-      this.courseForm = course;
+      this.courseForm = {
+        ...course,
+        creationDate: new Date(course.creationDate).toISOString().slice(0, 10)
+      };
     }
   }
 }

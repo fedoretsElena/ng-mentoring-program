@@ -1,9 +1,12 @@
 @import "../../../../styles/custom/variables";
 
+$max-width-sb: 350px;
+
 .search-form {
 
   &__input {
     box-shadow: none;
+    min-height: 45px;
     padding-left: 3rem;
     font-size: $base-font-size;
 
@@ -20,6 +23,7 @@
 
     &-wrapper {
       position: relative;
+      max-width: $max-width-sb;
     }
 
     &::placeholder {

@@ -1,15 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { of } from 'rxjs';
 
 import { LoginComponent } from './login.component';
 import { SharedModule } from '../../../shared';
 import { AuthService } from '../../../core/services';
+import { User } from '../../../core/entities';
 
 class MockAuthService extends AuthService {
   login(data) {
-    return of(true);
+    return of({} as User);
   }
 }
 
@@ -23,6 +25,7 @@ describe('LoginComponent', () => {
       declarations: [LoginComponent],
       imports: [
         RouterTestingModule,
+        HttpClientTestingModule,
 
         SharedModule
       ],
@@ -47,11 +50,11 @@ describe('LoginComponent', () => {
   });
 
   it('should call login from authService after form submit', () => {
-    const serviceSpy = spyOn(authService, 'login').and.returnValue(of(true));
+    const serviceSpy = spyOn(authService, 'login').and.returnValue(of({} as User));
     const routerSpy = spyOn(component.router, 'navigate');
     const loginForm = {
       password: 'qwerty123',
-      email: 'test@fmail.com'
+      login: 'test@fmail.com'
     };
 
     component.loginForm = loginForm;
@@ -64,7 +67,7 @@ describe('LoginComponent', () => {
   });
 
   it('should change form value after call onChange output', () => {
-    const key = 'email';
+    const key = 'login';
     const value = 'test1';
     component.onChange(value, key);
 

@@ -17,13 +17,15 @@ describe('UserMode;', () => {
   });
 
   it('should return concatenated fullName', () => {
-    const firstName = 'Oleh';
-    const lastName = 'Vinnik';
-    const expected = `${firstName} ${lastName}`;
+    const first = 'Oleh';
+    const last = 'Vinnik';
+    const expected = `${first} ${last}`;
     const user = new User({
       id: 1,
-      firstName,
-      lastName
+      name: {
+        first,
+        last
+      }
     });
 
     expect(user.fullName).toEqual(expected);

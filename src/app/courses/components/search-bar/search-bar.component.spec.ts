@@ -30,9 +30,9 @@ describe('SearchBarComponent', () => {
 
   it('should call onSubmit() after submit form (triggerEventHandler)', () => {
     const spy = spyOn(component, 'onSubmit');
-    const searchForm = fixture.debugElement.query(By.css('.search-form'));
+    const searchForm = fixture.debugElement.query(By.css('.search-form__input'));
 
-    searchForm.triggerEventHandler('submit', null);
+    searchForm.triggerEventHandler('ngModelChange', null);
     expect(spy).toHaveBeenCalled();
   });
 

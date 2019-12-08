@@ -1,22 +1,31 @@
+import { Author, IAuthor } from './author.model';
+
 export interface ICourse {
   id: number;
   title: string;
   duration: number;
   description: string;
-  topRated?: boolean;
-  authors?: string[];
+  isTopRated: boolean;
+  authors: IAuthor[];
   creationDate: Date | string;
 }
 
-export class Course implements ICourse {
+// server fields don't have correct names, so we need this interface like 'layer'
+export interface IExtendedCourse extends ICourse {
+  length: number;
+  name: string;
+  date: Date | string;
+}
+
+export class Course implements Partial<ICourse> {
   constructor(
-    options: Partial<ICourse> = {},
+    options: Partial<IExtendedCourse> = {},
     public id: number = options.id || null,
-    public title: string = options.title || null,
-    public topRated: boolean = options.topRated || false,
-    public creationDate: Date | string = options.creationDate || new Date(),
-    public duration: number = options.duration || null,
+    public title: string = options.name || options.title || null,
+    public isTopRated: boolean = options.isTopRated || false,
+    public creationDate: Date | string = options.date || options.creationDate || new Date(),
+    public duration: number = options.length || options.duration || null,
     public description: string = options.description || null,
-    public authors: string[] = options.authors || []
+    public authors: Author[] = options.authors ? options.authors.map(person => new Author(person))  : []
   ) {}
 }

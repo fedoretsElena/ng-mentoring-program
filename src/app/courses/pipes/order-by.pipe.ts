@@ -9,6 +9,10 @@ import { Course } from '../entitites';
 export class OrderByPipe implements PipeTransform {
 
   transform(value: Course[]): Course[] {
+    if (!value) {
+      return [];
+    }
+
     return value.sort((a, b) => {
       return moment(a.creationDate).isBefore(b.creationDate) ? -1 : 1;
     });
