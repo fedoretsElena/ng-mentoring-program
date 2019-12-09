@@ -20,9 +20,14 @@ class MockCoursesService {
 const mockRoute = {
   snapshot: {
     data: {
-      course: {
-        creationDate: new Date()
-      }
+      course: new Course({
+        creationDate: new Date(),
+        authors: [{
+          id: 1,
+          name: 'Oleg',
+          lastName: 'Donsov'
+        }]
+      })
     }
   }
 };
@@ -77,7 +82,7 @@ describe('CourseFormComponent', () => {
       const createSpy = spyOn(coursesService, 'createCourse').and.returnValue(of());
       component.isCreateMode = false;
 
-      component.onSubmit({});
+      component.onSubmit();
 
       expect(updateSpy).toHaveBeenCalled();
       expect(createSpy).not.toHaveBeenCalled();
@@ -87,7 +92,7 @@ describe('CourseFormComponent', () => {
       const createSpy = spyOn(coursesService, 'createCourse').and.returnValue(of(new Course()));
       component.isCreateMode = true;
 
-      component.onSubmit({});
+      component.onSubmit();
 
       expect(createSpy).toHaveBeenCalled();
       expect(routerValueSpy.navigate).toHaveBeenCalledWith(['/courses']);

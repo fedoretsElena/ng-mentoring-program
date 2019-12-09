@@ -1,0 +1,14 @@
+<div class="form-group d-flex align-items-center mb-0">
+  <label class="text-nowrap mb-0">{{ label }}: </label>
+  <select
+    class="form-control form-control-sm ml-1"
+    name="order-by"
+    (change)="onChange($event.target.value)"
+  >
+    <option
+      *ngFor="let option of options"
+      [value]="option.value"
+      [selected]="option.value === initial"
+    >{{ option.label || option.value | titlecase }}</option>
+  </select>
+</div>

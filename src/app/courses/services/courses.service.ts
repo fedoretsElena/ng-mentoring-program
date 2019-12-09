@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
-import { BehaviorSubject, combineLatest, Observable, of, throwError } from 'rxjs';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, throwError } from 'rxjs';
+import { catchError, map, mergeMap, share, tap } from 'rxjs/operators';
 
-import { Course, Filters, ICourse, IExtendedCourse } from '../entitites';
+import { Course, Filters, ICourse, IExtendedCourse, Pagination } from '../entitites';
 import { ApiConfig } from '../../core/services';
 
 @Injectable({
@@ -24,6 +24,17 @@ export class CoursesService {
   courses$: Observable<Course[]> = combineLatest([this.filters$, this.removeCourse$])
     .pipe(
       mergeMap(([filters]) => this.getList(filters))
+    );
+  pagination$: Observable<Pagination> = combineLatest([
+    this.getList(),
+    this.filters$
+  ])
+    .pipe(
+      map(([allCourses, filters]) => ({
+        isNextExist: allCourses.length > filters.start + filters.count && !filters.textFragment,
+        isPrevExist: filters.start !== 0 && !filters.textFragment
+      })),
+      share()
     );
 
   // for breadcrumbs title name

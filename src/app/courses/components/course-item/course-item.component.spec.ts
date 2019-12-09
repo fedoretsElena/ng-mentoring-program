@@ -34,7 +34,7 @@ describe('CourseItemComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CourseItemComponent);
     component = fixture.componentInstance;
-    component.course = {
+    component.course = new Course({
       id: 1,
       duration: 123,
       isTopRated: false,
@@ -42,7 +42,7 @@ describe('CourseItemComponent', () => {
       creationDate: new Date(),
       description: 'Once upon a time..',
       authors: []
-    };
+    });
 
     fixture.detectChanges();
   });

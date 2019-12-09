@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 
 import { CoursesService } from '../../services';
-import { Course, Filters } from '../../entitites';
+import { Course, Filters, Pagination } from '../../entitites';
+import { SelectOption } from '../../../shared';
 
 @Component({
   selector: 'cs-courses',
@@ -12,21 +12,29 @@ import { Course, Filters } from '../../entitites';
   styleUrls: ['./courses.component.scss']
 })
 export class CoursesComponent implements OnInit {
-  isNextPageExist = true;
-  courses$: Observable<Course[]> = this.coursesService.courses$
-    .pipe(
-      tap((list) => this.isNextPageExist = this.filters.count <= list.length)
-    );
+  courses$: Observable<Course[]> = this.coursesService.courses$;
+  pagination$: Observable<Pagination> = this.coursesService.pagination$;
+
+  sortByOptions: SelectOption[] = [{
+    value: 'date',
+    label: 'Creation date'
+  }, {
+    value: 'length',
+    label: 'Duration'
+  }, {
+    value: 'isTopRated',
+    label: 'Top rated'
+  }];
 
   private filters: Filters = {
     count: 5,
-    start: 0
+    start: 0,
+    sort: 'date'
   };
 
   constructor(
     private coursesService: CoursesService
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.coursesService.onFiltersChange(this.filters);
@@ -36,17 +44,26 @@ export class CoursesComponent implements OnInit {
     this.coursesService.removeItem(courseId).subscribe();
   }
 
+  onPreviousPage(): void {
+    const limit = 5;
+    this.onChangeFilters({ start: this.filters.start - limit });
+  }
+
   onLoadMore(): void {
     const limit = 5;
-    this.onChangeFilters(this.filters.count + limit, 'count');
+    this.onChangeFilters({ start: this.filters.start + limit });
   }
 
-  onChangeSearch(query: string): void {
-    this.onChangeFilters(query, 'textFragment');
+  onChangeSearch(textFragment: string): void {
+    this.onChangeFilters({ textFragment });
   }
 
-  private onChangeFilters(value: number | string, key: string) {
-    this.filters[key]  = value;
+  onSelectSortBy(sort: string): void {
+    this.onChangeFilters({ sort, start: 0 });
+  }
+
+  private onChangeFilters(filters: Filters): void {
+    this.filters  = { ...this.filters, ...filters };
 
     this.coursesService.onFiltersChange(this.filters);
   }

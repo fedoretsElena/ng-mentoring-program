@@ -4,22 +4,48 @@
     (changeSearch)="onChangeSearch($event)"
   ></cs-search-bar>
 
-  <div class="d-flex justify-content-end mb-3">
-    <cs-add-course-btn></cs-add-course-btn>
+  <div class="d-flex justify-content-between mb-3">
+    <nav>
+      <ul
+        class="pagination"
+        *ngIf="pagination$ | async as pagination"
+      >
+        <li class="page-item" [class.disabled]="!pagination.isPrevExist">
+          <a class="page-link" (click)="onPreviousPage()">Previous</a>
+        </li>
+        <li class="page-item" [class.disabled]="!pagination.isNextExist">
+          <a class="page-link" (click)="onLoadMore()">Next</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="d-flex align-items-center">
+      <cs-select
+        class="mr-3"
+        label="Group by"
+        [options]="sortByOptions"
+        [initial]="filters.sort"
+        (selected)="onSelectSortBy($event)"
+      ></cs-select>
+
+      <cs-add-course-btn></cs-add-course-btn>
+    </div>
   </div>
 
-  <ng-container *ngIf="courses$ | async | orderBy as courses">
+  <ng-container *ngIf="courses$ | async as courses">
     <ng-container  *ngIf="courses.length > 0;else noCourses">
       <cs-courses-list
         [courses]="courses"
         (deleteCourse)="onDeleteCourse($event)"
       ></cs-courses-list>
 
-      <div
-        class="load-more-btn rounded text-uppercase btn-link text-info text-center mt-4 p-3 link primary-shadow"
-        (click)="onLoadMore()"
-        *ngIf="isNextPageExist"
-      >load more</div>
+      <ng-container *ngIf="pagination$ | async as pagination">
+        <div
+          class="load-more-btn rounded text-uppercase btn-link text-info text-center mt-4 p-3 link primary-shadow"
+          (click)="onLoadMore()"
+          *ngIf="pagination.isNextExist"
+        >load more</div>
+      </ng-container>
     </ng-container>
 
     <ng-template #noCourses>
