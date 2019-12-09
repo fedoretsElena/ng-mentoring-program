@@ -3,7 +3,6 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { skip } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import { MockDirective } from 'ng-mocks';
@@ -92,15 +91,16 @@ describe('CoursesComponent', () => {
     expect(coursesServiceSpy).toHaveBeenCalledWith(id);
   });
 
-  it('should call onChangeFilters() with new filter value', () => {
+  it('should be called twice, after each call', () => {
     const onChangeFiltersSpy = spyOn<any>(component, 'onChangeFilters');
 
     component.onLoadMore();
+    component.onPreviousPage();
 
-    expect(onChangeFiltersSpy).toHaveBeenCalledWith( 10, 'count');
+    expect(onChangeFiltersSpy).toHaveBeenCalledTimes(2);
   });
 
-  it('should call onLoad after click on load button', () => {
+  xit('should call onLoad after click on load button', () => {
     const spy = spyOn(component, 'onLoadMore');
 
     fixture.debugElement
@@ -117,6 +117,15 @@ describe('CoursesComponent', () => {
 
     component.onChangeSearch(query);
 
-    expect(onChangeFiltersSpy).toHaveBeenCalledWith( query, 'textFragment');
+    expect(onChangeFiltersSpy).toHaveBeenCalledWith( {textFragment: query});
+  });
+
+  it('should change sort parameter and reset start', () => {
+    const onChangeFiltersSpy = spyOn<any>(component, 'onChangeFilters');
+    const sortByKey = 'length';
+
+    component.onSelectSortBy(sortByKey);
+
+    expect(onChangeFiltersSpy).toHaveBeenCalledWith({ sort: sortByKey, start: 0 });
   });
 });

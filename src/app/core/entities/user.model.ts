@@ -15,8 +15,8 @@ export class User implements Partial<IUser> {
   constructor(
     options: Partial<IUser> = {},
     public id: number = options.id || null,
-    public firstName: string = options.name && options.name.first || null,
-    public lastName: string = options.name && options.name.last || null
+    public firstName: string = options.name && options.name.first || '',
+    public lastName: string = options.name && options.name.last || ''
   ) {}
 
   get fullName(): string {
