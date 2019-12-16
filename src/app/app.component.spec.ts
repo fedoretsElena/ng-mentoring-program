@@ -1,10 +1,12 @@
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { of } from 'rxjs';
+
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared';
 import { AuthService } from './core/services';
-import { of } from 'rxjs';
+import { LoadingComponent } from './components';
 
 class MockAuthService {
   isAuth$() {
@@ -23,7 +25,8 @@ describe('AppComponent', () => {
         }])
       ],
       declarations: [
-        AppComponent
+        AppComponent,
+        LoadingComponent
       ],
       providers: [{
         provide: AuthService,

@@ -8,14 +8,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { SharedModule } from './shared';
-import { PageNotFoundComponent } from './components';
+import { LoadingComponent, PageNotFoundComponent } from './components';
 import { CoursesModule } from './courses';
 import { HttpInterceptor } from './core/services';
 
 @NgModule({
   declarations: [
+    LoadingComponent,
     AppComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,

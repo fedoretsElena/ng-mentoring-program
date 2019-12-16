@@ -38,10 +38,9 @@ describe('CoursesService', () => {
     expect(service).toBeTruthy();
   });
 
-
   it('should call getList after each changes inside filters or removing items', () => {
     const spy = spyOn(service, 'getList').and.returnValue(of([]));
-    const filters = {count: 5, start: 1, textFragment: 'test11'};
+    const filters = { count: 5, start: 1, textFragment: 'test11' };
 
     service.courses$.subscribe();
     service.onFiltersChange(filters);
@@ -50,16 +49,16 @@ describe('CoursesService', () => {
   });
 
   it('should spread changes after call', (done) => {
-    const filters = {count: 5, start: 1};
+    const filters = { count: 5, start: 1 };
 
     service.filters$
-      .pipe(
-        skip(1)
-      )
-      .subscribe((res) => {
-        expect(res).toEqual(filters);
-        done();
-      });
+    .pipe(
+      skip(1)
+    )
+    .subscribe((res) => {
+      expect(res).toEqual(filters);
+      done();
+    });
 
     service.onFiltersChange(filters);
   });
@@ -70,18 +69,18 @@ describe('CoursesService', () => {
         expect(list.length).toBe(courses.length);
       });
 
-      const req = httpMock.expectOne(`${ApiConfig.COURSES_BASE_URL}`);
+      const req = httpMock.expectOne(`${ ApiConfig.COURSES_BASE_URL }`);
       req.flush(courses);
 
       expect(req.request.method).toBe('GET');
     });
 
     it('should contain filter in params', () => {
-      service.getList({count: 5}).subscribe((list) => {
+      service.getList({ count: 5 }).subscribe((list) => {
         expect(list.length).toBe(courses.length);
       });
 
-      const req = httpMock.expectOne(`${ApiConfig.COURSES_BASE_URL}?count=5`);
+      const req = httpMock.expectOne(`${ ApiConfig.COURSES_BASE_URL }?count=5`);
       req.flush(courses);
 
       expect(req.request.method).toBe('GET');
@@ -91,10 +90,10 @@ describe('CoursesService', () => {
 
   describe('createCourse', () => {
     it('should return created course', () => {
-      const course = {title: 'test'} as ICourse;
+      const course = { title: 'test' } as ICourse;
 
       service.createCourse(course)
-        .subscribe((res: IExtendedCourse) => expect(res.name).toBe(mockCourseResponse.name));
+      .subscribe((res: IExtendedCourse) => expect(res.name).toBe(mockCourseResponse.name));
 
       const req = httpMock.expectOne(ApiConfig.COURSES_BASE_URL);
       req.flush(mockCourseResponse);
@@ -109,7 +108,7 @@ describe('CoursesService', () => {
       const id = mockCourseResponse.id;
 
       service.getItemById(id)
-        .subscribe((res: Course) => expect(res.title).toBe(mockCourseResponse.name));
+      .subscribe((res: Course) => expect(res.title).toBe(mockCourseResponse.name));
 
       const req = httpMock.expectOne(ApiConfig.COURSES_BASE_URL + id);
       req.flush(mockCourseResponse);
@@ -122,11 +121,11 @@ describe('CoursesService', () => {
 
       service.getItemById(courseId).subscribe(() => {
       }, (err) => {
-        expect(err.toString()).toBe(`Error: Course with id ${courseId} does not exist.`);
+        expect(err.toString()).toBe(`Error: Course with id ${ courseId } does not exist.`);
       });
 
       const req = httpMock.expectOne(ApiConfig.COURSES_BASE_URL + courseId);
-      req.error(new ErrorEvent(`Error: Course with id ${courseId} does not exist.`));
+      req.error(new ErrorEvent(`Error: Course with id ${ courseId } does not exist.`));
     });
   });
 
@@ -136,7 +135,7 @@ describe('CoursesService', () => {
       const id = 13;
 
       service.removeItem(id)
-        .subscribe();
+      .subscribe();
 
       const req = httpMock.expectOne(ApiConfig.COURSES_BASE_URL + id);
       req.flush({});
@@ -148,10 +147,10 @@ describe('CoursesService', () => {
   describe('updateItem', () => {
 
     it('should send path request for updates', () => {
-      const course = {id: 1, title: 'test'} as ICourse;
+      const course = { id: 1, title: 'test' } as ICourse;
 
       service.updateItem(course)
-        .subscribe((res: IExtendedCourse) => expect(res).toBeDefined());
+      .subscribe((res: IExtendedCourse) => expect(res).toBeDefined());
 
       const req = httpMock.expectOne(ApiConfig.COURSES_BASE_URL + course.id);
       req.flush(mockCourseResponse);

@@ -1,0 +1,6 @@
+<div
+  class="loading d-flex justify-content-center align-items-center w-100 h-100"
+  [ngClass]="{ 'loading--active': loaderState$ | async }"
+>
+  <img [src]="'assets/preloader.svg'" alt="preloader">
+</div>

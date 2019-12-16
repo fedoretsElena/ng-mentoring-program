@@ -1,36 +1,30 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Router, RouterStateSnapshot } from '@angular/router';
 
+import { of } from 'rxjs';
+
 import { AuthGuard } from './auth.guard';
 import { AuthService } from '../services';
 
-let authorized = false;
-
-class MockAuthService {
-  isAuthenticated() {
-    return authorized;
-  }
-}
-
 describe('AuthGuard', () => {
   let service: AuthGuard;
-  let authService: AuthService;
-
+  let authService: jasmine.SpyObj<AuthService>;
   let router: jasmine.SpyObj<Router>;
 
   beforeEach(() => {
     const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+    const authServiceSpy = jasmine.createSpyObj('AuthService', ['isAuthenticated$']);
 
     TestBed.configureTestingModule({
       providers: [
-        AuthGuard,
         {
           provide: AuthService,
-          useClass: MockAuthService
+          useValue: authServiceSpy
         }, {
           provide: Router,
           useValue: routerSpy
-        }
+        },
+        AuthGuard
       ]
     });
 
@@ -43,20 +37,26 @@ describe('AuthGuard', () => {
     expect(authGuard).toBeTruthy();
   }));
 
-  it('should return true if user is authorized', () => {
+  it('should return true if user is authorized', (done) => {
     const routeSnapshot = { url: '/courses' } ;
-    authorized = true;
+    Object.defineProperty(authService, 'isAuthenticated$', {get: () => of(true)});
+    spyOnProperty(authService, 'isAuthenticated$', 'get').and.returnValue(of(true));
 
-    expect(service.canActivate(null, routeSnapshot as RouterStateSnapshot)).toBeTruthy();
+    service.canActivate(null, routeSnapshot as RouterStateSnapshot).subscribe((res) => {
+      expect(res).toBeTruthy();
+      done();
+    });
   });
 
-  it('should return false and navigate to login if user is not authorized', () => {
+  it('should return false and navigate to login if user is not authorized', (done) => {
     const route = { path: '/courses' } ;
-    authorized = false;
+    Object.defineProperty(authService, 'isAuthenticated$', {get: () => of(false)});
+    spyOnProperty(authService, 'isAuthenticated$', 'get').and.returnValue(of(false));
 
-    const result = service.canLoad(route);
-
-    expect(router.navigate).toHaveBeenCalledWith(['/auth/login']);
-    expect(result).toBeFalsy();
+    service.canLoad(route).subscribe((res) => {
+      expect(router.navigate).toHaveBeenCalledWith(['/auth/login']);
+      expect(res).toBeFalsy();
+      done();
+    });
   });
 });

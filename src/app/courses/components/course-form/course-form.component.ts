@@ -30,7 +30,7 @@ export class CourseFormComponent implements OnInit {
   }
 
   onSubmit(value = this.courseForm): void {
-    value.authors = this.prepareAuthors(value.authors);
+    value.authors = value.authors ? this.prepareAuthors(value.authors) : [];
 
     const source$ = this.coursesService[this.isCreateMode ? 'createCourse' : 'updateItem'](value);
 

@@ -12,11 +12,9 @@ import { AuthService } from './core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  isAuth$: Observable<boolean>;
+  isAuth$: Observable<boolean> = this.authService.isAuth$();
 
   constructor(
-    private authService: AuthService
-  ) {
-    this.isAuth$ = this.authService.isAuth$();
-  }
+    private authService: AuthService,
+  ) {}
 }

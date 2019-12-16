@@ -70,19 +70,19 @@ describe('AuthService', () => {
       const getUserSpy = spyOn(service, 'getUser').and.returnValue(of({} as User));
       const token = mockToken;
 
-      service.login({login: 'some@gm.com', password: 'qweasd23'})
-        .subscribe();
+      service.login({ login: 'some@gm.com', password: 'qweasd23' })
+      .subscribe();
 
       const req = httpMock.expectOne(ApiConfig.LOGIN_URL);
       expect(req.request.method).toBe('POST');
-      req.flush({token});
+      req.flush({ token });
 
       expect(getUserSpy).toHaveBeenCalledWith(token);
     });
   });
 
   describe('getUser', () => {
-    it('should save data to LS after success getUser request', () => {
+    it('should save data to LS after success getUser request', (done) => {
       const lsSpy = spyOn(localStorage, 'setItem');
       const mockUser = {
         fakeToken: mockToken,
@@ -90,7 +90,13 @@ describe('AuthService', () => {
       };
 
       service.getUser('fsgEgrqv5tfgqG4rtgG')
-        .subscribe();
+      .subscribe(() => {
+
+        service.isAuthenticated$.subscribe((res) => {
+          expect(res).toBeTruthy();
+          done();
+        });
+      });
 
       const req = httpMock.expectOne(ApiConfig.USER_INFO_URL);
       expect(req.request.method).toBe('POST');
@@ -113,11 +119,11 @@ describe('AuthService', () => {
     it('should return true if path contain auth', (done) => {
 
       service.isAuth$()
-        .subscribe((flag: boolean) => {
-          expect(flag).toBeTruthy();
+      .subscribe((flag: boolean) => {
+        expect(flag).toBeTruthy();
 
-          done();
-        });
+        done();
+      });
     });
   });
 
@@ -146,11 +152,11 @@ describe('AuthService', () => {
     it('should return null if localStorage does not have userInfo', (done) => {
 
       service.getUserInfo$
-        .subscribe((user) => {
-          expect(user).toBeNull();
+      .subscribe((user) => {
+        expect(user).toBeNull();
 
-          done();
-        });
+        done();
+      });
     });
   });
 
