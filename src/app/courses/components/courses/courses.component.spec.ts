@@ -128,4 +128,13 @@ describe('CoursesComponent', () => {
 
     expect(onChangeFiltersSpy).toHaveBeenCalledWith({ sort: sortByKey, start: 0 });
   });
+
+  it('should call service onFiltersChange', () => {
+    const onFiltersChangeSpy = spyOn(coursesService, 'onFiltersChange');
+    const sortByKey = 'length';
+
+    component.onChangeFilters({ sort: sortByKey });
+
+    expect(onFiltersChangeSpy).toHaveBeenCalled();
+  });
 });

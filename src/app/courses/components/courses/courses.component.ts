@@ -62,7 +62,7 @@ export class CoursesComponent implements OnInit {
     this.onChangeFilters({ sort, start: 0 });
   }
 
-  private onChangeFilters(filters: Filters): void {
+  onChangeFilters(filters: Filters): void {
     this.filters  = { ...this.filters, ...filters };
 
     this.coursesService.onFiltersChange(this.filters);

@@ -65,6 +65,13 @@ describe('AuthService', () => {
     expect(service).toBeTruthy();
   });
 
+  it('should return initial user from LS', () => {
+    localStorage.setItem('user', { id: 1 });
+
+    expect(service.getInitialUser()).toBeDefined();
+    expect(service.getInitialUser().id).toBe(1);
+  });
+
   describe('login', () => {
     it('should call getUserInfo request with token after successful login', () => {
       const getUserSpy = spyOn(service, 'getUser').and.returnValue(of({} as User));

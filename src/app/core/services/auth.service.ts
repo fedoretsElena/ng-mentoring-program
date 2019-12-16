@@ -74,9 +74,9 @@ export class AuthService {
     return !!this.localStorage.getItem(this.TOKEN_KEY);
   }
 
-  private getInitialUser(): User | null {
+  getInitialUser(): User | null {
     const user = this.localStorage.getItem(this.USER_KEY);
 
-    return user ? new User(this.localStorage.getItem(this.USER_KEY)) : null;
+    return user ? new User(user) : null;
   }
 }
