@@ -5,6 +5,8 @@ import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { HttpInterceptor } from './http.interceptor';
 import { AuthService } from './auth.service';
 import { ApiConfig } from './api-config.service';
+import { LoaderService } from './loader.service';
+import { finalize } from 'rxjs/operators';
 
 class MockAuthService {
   getToken() {
@@ -12,8 +14,13 @@ class MockAuthService {
   }
 }
 
+const stubLoaderService = {
+  onShow(state) {}
+};
+
 describe('HttpInterceptor', () => {
   let service: HttpInterceptor;
+  let loaderService: LoaderService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
@@ -28,10 +35,14 @@ describe('HttpInterceptor', () => {
       }, {
         provide: AuthService,
         useClass: MockAuthService
+      }, {
+        provide: LoaderService,
+        useValue: stubLoaderService
       }]
     });
 
     service = TestBed.get(HttpInterceptor);
+    loaderService = TestBed.get(LoaderService);
     httpMock = TestBed.get(HttpTestingController);
   });
 
@@ -43,8 +54,16 @@ describe('HttpInterceptor', () => {
     it('should add Authorization to Headers',
       inject([HttpClient, HttpTestingController],
         (http: HttpClient, mock: HttpTestingController) => {
+          const spyLoading = spyOn(loaderService, 'onShow');
+
           http.get(ApiConfig.COURSES_BASE_URL)
-            .subscribe(response => expect(response).toBeTruthy());
+            .pipe(
+              finalize(() => expect(spyLoading).toHaveBeenCalled())
+            )
+            .subscribe(response => {
+              expect(response).toBeTruthy();
+              expect(spyLoading).toHaveBeenCalledWith(true);
+            });
 
           const request = mock.expectOne((req) => req.headers.has('Authorization'));
 

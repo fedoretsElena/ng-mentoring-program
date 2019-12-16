@@ -26,7 +26,7 @@ export class CoursesComponent implements OnInit {
     label: 'Top rated'
   }];
 
-  private filters: Filters = {
+  filters: Filters = {
     count: 5,
     start: 0,
     sort: 'date'

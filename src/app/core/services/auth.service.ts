@@ -20,6 +20,10 @@ export class AuthService {
     = new BehaviorSubject(this.getInitialUser());
 
   getUserInfo$: Observable<User> = this.userSink.asObservable();
+  isAuthenticated$: Observable<boolean> = this.getUserInfo$
+    .pipe(
+      map(user => !!user)
+    );
 
   constructor(
     private router: Router,

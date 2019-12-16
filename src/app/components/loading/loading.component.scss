@@ -1,0 +1,18 @@
+.loading {
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  position: fixed;
+
+  opacity: 0;
+  background: rgba(white, .4);
+
+  transform: translate(-100%, -100%);
+  transition: .4s opacity, .3s transform;
+
+
+  &--active {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}

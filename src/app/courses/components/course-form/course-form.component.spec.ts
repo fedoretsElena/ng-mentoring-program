@@ -81,10 +81,13 @@ describe('CourseFormComponent', () => {
       const updateSpy = spyOn(coursesService, 'updateItem').and.returnValue(of());
       const createSpy = spyOn(coursesService, 'createCourse').and.returnValue(of());
       component.isCreateMode = false;
+      component.courseForm = {
+        authors: null
+      } as any;
 
       component.onSubmit();
 
-      expect(updateSpy).toHaveBeenCalled();
+      expect(updateSpy).toHaveBeenCalledWith({ authors: [] });
       expect(createSpy).not.toHaveBeenCalled();
     });
 

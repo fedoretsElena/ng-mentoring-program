@@ -3,3 +3,4 @@ export * from './local-storage.service';
 export * from './api-config.service';
 
 export * from './http.interceptor';
+export * from './loader.service';

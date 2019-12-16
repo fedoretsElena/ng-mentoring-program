@@ -36,14 +36,14 @@ describe('SearchBarComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should raise search value after onSubmit()', () => {
-    let updatedSearch;
+  it('should raise search value after onSubmit()', (done) => {
     const search = 'NgRx';
 
-    component.changeSearch.subscribe(v => updatedSearch = v);
+    component.search$.subscribe((v) => {
+      expect(v).toBe(search);
+      done();
+    });
 
     component.onSubmit(search);
-
-    expect(updatedSearch).toBe(search);
   });
 });
