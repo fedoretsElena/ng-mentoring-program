@@ -31,9 +31,6 @@ export class LoginComponent implements OnInit {
     $event.preventDefault();
 
     this.authService.login(this.loginForm)
-      .subscribe(() => {
-        console.log('Logged in successfully.');
-        this.router.navigate(['/courses']);
-      });
+      .subscribe();
   }
 }

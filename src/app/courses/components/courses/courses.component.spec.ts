@@ -4,9 +4,11 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { Observable, of } from 'rxjs';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { MockDirective } from 'ng-mocks';
 import { SwalDirective } from '@sweetalert2/ngx-sweetalert2';
+import { MemoizedSelector, Store } from '@ngrx/store';
 
 import { CoursesComponent } from './courses.component';
 import { SearchBarComponent } from '../search-bar';
@@ -17,20 +19,10 @@ import { SharedModule } from '../../../shared';
 import { OrderByPipe } from '../../pipes';
 import { DateStatusDirective } from '../../directives';
 import { CoursesService } from '../../services';
-import { courses } from '../../mocks';
-import { Course } from '../../entitites';
+import { AppState } from '../../../core/store';
+import { deleteCourse, getCoursesData, getCoursesLoading } from '../../store';
 
 class MockCoursesService {
-  courses$ = of(courses.map((c) => new Course(c)));
-
-  removeItem(id: number): Observable<null> {
-    return of(null);
-  }
-
-  getList() {
-    return of(courses.map(c => new Course(c)));
-  }
-
   onFiltersChange(filters) {}
 }
 
@@ -38,6 +30,10 @@ describe('CoursesComponent', () => {
   let component: CoursesComponent;
   let fixture: ComponentFixture<CoursesComponent>;
   let coursesService: CoursesService;
+
+  let mockStore: MockStore<AppState>;
+  let mockGetCoursesLoadingSelector: MemoizedSelector<AppState, boolean>;
+  let mockGetCoursesDataSelector;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -61,7 +57,7 @@ describe('CoursesComponent', () => {
       providers: [{
         provide: CoursesService,
         useClass: MockCoursesService
-      }]
+      }, provideMockStore()]
     })
       .compileComponents();
   }));
@@ -70,6 +66,11 @@ describe('CoursesComponent', () => {
     fixture = TestBed.createComponent(CoursesComponent);
     component = fixture.componentInstance;
     coursesService = TestBed.get(CoursesService);
+
+    mockStore = TestBed.get(Store);
+    mockGetCoursesLoadingSelector = mockStore.overrideSelector(getCoursesLoading, true);
+    mockGetCoursesDataSelector = mockStore.overrideSelector(getCoursesData as any, []);
+
     fixture.detectChanges();
   });
 
@@ -82,17 +83,17 @@ describe('CoursesComponent', () => {
     expect(component.courses$).toBeDefined();
   });
 
-  it('should call removeItem(id) of coursesService after call onDeleteCourse()', () => {
-    const coursesServiceSpy = spyOn(coursesService, 'removeItem').and.returnValue(of(null));
+  it('should dispatch deleteCourse with id after call onDeleteCourse()', () => {
+    const mockStoreSpy = spyOn(mockStore, 'dispatch');
     const id = 1;
 
     component.onDeleteCourse(id);
 
-    expect(coursesServiceSpy).toHaveBeenCalledWith(id);
+    expect(mockStoreSpy).toHaveBeenCalledWith(deleteCourse({id}));
   });
 
   it('should be called twice, after each call', () => {
-    const onChangeFiltersSpy = spyOn<any>(component, 'onChangeFilters');
+    const onChangeFiltersSpy = spyOn(component, 'onChangeFilters');
 
     component.onLoadMore();
     component.onPreviousPage();
@@ -112,7 +113,7 @@ describe('CoursesComponent', () => {
   });
 
   it('should call onChangeFilters() after change search', () => {
-    const onChangeFiltersSpy = spyOn<any>(component, 'onChangeFilters');
+    const onChangeFiltersSpy = spyOn(component, 'onChangeFilters');
     const query = 'Nickelodeon';
 
     component.onChangeSearch(query);
@@ -121,7 +122,7 @@ describe('CoursesComponent', () => {
   });
 
   it('should change sort parameter and reset start', () => {
-    const onChangeFiltersSpy = spyOn<any>(component, 'onChangeFilters');
+    const onChangeFiltersSpy = spyOn(component, 'onChangeFilters');
     const sortByKey = 'length';
 
     component.onSelectSortBy(sortByKey);

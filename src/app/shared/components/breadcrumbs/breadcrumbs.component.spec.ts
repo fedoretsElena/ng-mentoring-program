@@ -1,12 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { ReplaySubject } from 'rxjs';
+import { MemoizedSelector, Store } from '@ngrx/store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { BreadcrumbsComponent } from './breadcrumbs.component';
 import { CoursesService } from '../../../courses/services';
 import { Course } from '../../../courses/entitites';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { AppState } from '../../../core/store';
+import { getCourseByUrl } from '../../../courses/store';
 
 class MockCoursesService {
   currCourse = {};
@@ -22,7 +26,8 @@ describe('BreadcrumbsComponent', () => {
   let component: BreadcrumbsComponent;
   let fixture: ComponentFixture<BreadcrumbsComponent>;
 
-  let coursesService: CoursesService;
+  let mockStore: MockStore<AppState>;
+  let mockCourseSelector: MemoizedSelector<AppState, Course>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -33,7 +38,7 @@ describe('BreadcrumbsComponent', () => {
       }, {
         provide: Router,
         useValue: routerMock
-      }],
+      }, provideMockStore()],
       schemas: [NO_ERRORS_SCHEMA]
     })
       .compileComponents();
@@ -41,7 +46,8 @@ describe('BreadcrumbsComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BreadcrumbsComponent);
-    coursesService = TestBed.get(CoursesService);
+    mockStore = TestBed.get(Store);
+    mockCourseSelector = mockStore.overrideSelector(getCourseByUrl, {} as Course);
 
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -66,7 +72,8 @@ describe('BreadcrumbsComponent', () => {
     it('should include course title inside last route, if route has id param', () => {
       const url = '/courses/1';
       const course = new Course({id: 1, title: 'ZAQWSXC'});
-      coursesService.currCourse = course;
+      mockCourseSelector.setResult(course as Course);
+      mockStore.refreshState();
 
       component.checkRoute(url);
 

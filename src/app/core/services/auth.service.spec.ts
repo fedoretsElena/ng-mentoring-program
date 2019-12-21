@@ -4,12 +4,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { of } from 'rxjs';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MemoizedSelector, Store } from '@ngrx/store';
 
 import { AuthService } from './auth.service';
 import { LocalStorageService } from './local-storage.service';
 import { ApiConfig } from './api-config.service';
 import { mockToken } from '../mocks';
 import { User } from '../entities';
+import { AppState, loadUser } from '../store';
+import { getUser } from '../store/user/user.selectors';
 
 class MockLocalStorageService {
   store = {};
@@ -41,6 +45,9 @@ describe('AuthService', () => {
   let service: AuthService;
   let httpMock: HttpTestingController;
 
+  let mockStore: MockStore<AppState>;
+  let mockGetUserSelector: MemoizedSelector<AppState, User>;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -53,10 +60,12 @@ describe('AuthService', () => {
       }, {
         provide: Router,
         useClass: MockRouter
-      }]
+      }, provideMockStore()]
     });
 
     service = TestBed.get(AuthService);
+    mockStore = TestBed.get(Store);
+    mockGetUserSelector = mockStore.overrideSelector(getUser, null);
     localStorage = TestBed.get(LocalStorageService);
     httpMock = TestBed.get(HttpTestingController);
   });
@@ -65,26 +74,18 @@ describe('AuthService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return initial user from LS', () => {
-    localStorage.setItem('user', { id: 1 });
-
-    expect(service.getInitialUser()).toBeDefined();
-    expect(service.getInitialUser().id).toBe(1);
-  });
-
   describe('login', () => {
-    it('should call getUserInfo request with token after successful login', () => {
-      const getUserSpy = spyOn(service, 'getUser').and.returnValue(of({} as User));
+    it('should dispatch loadUser action with token after successful login', () => {
+      const storeSpy = spyOn(mockStore, 'dispatch');
       const token = mockToken;
 
-      service.login({ login: 'some@gm.com', password: 'qweasd23' })
-      .subscribe();
+      service.login({ login: 'some@gm.com', password: 'qweasd23' }) .subscribe();
 
       const req = httpMock.expectOne(ApiConfig.LOGIN_URL);
       expect(req.request.method).toBe('POST');
       req.flush({ token });
 
-      expect(getUserSpy).toHaveBeenCalledWith(token);
+      expect(storeSpy).toHaveBeenCalledWith(loadUser({token}));
     });
   });
 
@@ -95,6 +96,11 @@ describe('AuthService', () => {
         fakeToken: mockToken,
         id: 1
       };
+
+      mockGetUserSelector.setResult(
+        new User({ id: 1, name: { first: 'Fedor', last: 'Dud' }})
+      );
+      mockStore.refreshState();
 
       service.getUser('fsgEgrqv5tfgqG4rtgG')
       .subscribe(() => {
@@ -152,18 +158,6 @@ describe('AuthService', () => {
       localStorage.setItem('token', token);
 
       expect(service.getToken()).toBe(token);
-    });
-  });
-
-  describe('getUserInfo', () => {
-    it('should return null if localStorage does not have userInfo', (done) => {
-
-      service.getUserInfo$
-      .subscribe((user) => {
-        expect(user).toBeNull();
-
-        done();
-      });
     });
   });
 

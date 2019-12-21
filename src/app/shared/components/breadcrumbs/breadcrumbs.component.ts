@@ -2,9 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
 import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, first } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 
-import { CoursesService } from '../../../courses/services';
+import { AppState } from '../../../core/store';
+import { getCourseByUrl } from '../../../courses/store';
 
 @Component({
   selector: 'cs-breadcrumbs',
@@ -18,7 +20,7 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private coursesService: CoursesService
+    private store: Store<AppState>
   ) {
   }
 
@@ -48,8 +50,9 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
     const last = routes[routes.length - 1];
 
     if (!isNaN(+last)) {
-      const { title } = this.coursesService.currCourse;
-      routes[routes.length - 1] = title;
+      this.store.select(getCourseByUrl).pipe(
+        first()
+      ).subscribe(({title}) => routes[routes.length - 1] = title);
     }
 
     this.routes = [...routes];

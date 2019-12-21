@@ -11,6 +11,8 @@ import { SharedModule } from './shared';
 import { LoadingComponent, PageNotFoundComponent } from './components';
 import { CoursesModule } from './courses';
 import { HttpInterceptor } from './core/services';
+import { CoreStoreModule } from './core/store';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { HttpInterceptor } from './core/services';
 
     SharedModule,
     CoursesModule,
-
+    CoreStoreModule,
+    CoreModule,
     AppRoutingModule
   ],
   providers: [{

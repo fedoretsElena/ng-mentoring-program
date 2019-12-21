@@ -2,11 +2,12 @@ import { inject, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
+import { finalize } from 'rxjs/operators';
+
 import { HttpInterceptor } from './http.interceptor';
 import { AuthService } from './auth.service';
 import { ApiConfig } from './api-config.service';
 import { LoaderService } from './loader.service';
-import { finalize } from 'rxjs/operators';
 
 class MockAuthService {
   getToken() {

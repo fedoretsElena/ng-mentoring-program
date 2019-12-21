@@ -3,15 +3,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { of } from 'rxjs';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { LoginComponent } from './login.component';
 import { SharedModule } from '../../../shared';
 import { AuthService } from '../../../core/services';
-import { User } from '../../../core/entities';
+import { mockToken } from '../../../core/mocks';
 
 class MockAuthService extends AuthService {
   login(data) {
-    return of({} as User);
+    return of(mockToken);
   }
 }
 
@@ -32,7 +33,7 @@ describe('LoginComponent', () => {
       providers: [{
         provide: AuthService,
         useClass: MockAuthService
-      }]
+      }, provideMockStore()]
     })
     .compileComponents();
   }));
@@ -50,8 +51,7 @@ describe('LoginComponent', () => {
   });
 
   it('should call login from authService after form submit', () => {
-    const serviceSpy = spyOn(authService, 'login').and.returnValue(of({} as User));
-    const routerSpy = spyOn(component.router, 'navigate');
+    const serviceSpy = spyOn(authService, 'login').and.returnValue(of(mockToken));
     const loginForm = {
       password: 'qwerty123',
       login: 'test@fmail.com'
@@ -63,7 +63,6 @@ describe('LoginComponent', () => {
     component.onSubmit(new Event('submit'));
 
     expect(serviceSpy).toHaveBeenCalledWith(loginForm);
-    expect(routerSpy).toHaveBeenCalledWith(['/courses']);
   });
 
   it('should change form value after call onChange output', () => {
