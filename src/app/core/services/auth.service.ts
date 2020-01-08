@@ -2,38 +2,40 @@ import { Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { filter, map, pluck, switchMap, tap } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
+import { filter, map, pluck, tap } from 'rxjs/operators';
 
 import { IUser, User } from '../entities';
 import { LocalStorageService } from './local-storage.service';
 import { ApiConfig } from './api-config.service';
+import { AppState } from '../store';
+import { loadUser, deleteUser } from '../store/user/user.actions';
+import { getUser } from '../store/user/user.selectors';
+
+export const USER_KEY = 'user';
+export const TOKEN_KEY = 'token';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly USER_KEY = 'user';
-  private readonly TOKEN_KEY = 'token';
 
-  private userSink: BehaviorSubject<User>
-    = new BehaviorSubject(this.getInitialUser());
-
-  getUserInfo$: Observable<User> = this.userSink.asObservable();
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private store: Store<AppState>,
+    private localStorage: LocalStorageService,
+  ) {
+  }
+  getUserInfo$: Observable<User> = this.store.select(getUser);
   isAuthenticated$: Observable<boolean> = this.getUserInfo$
     .pipe(
       map(user => !!user)
     );
 
-  constructor(
-    private router: Router,
-    private http: HttpClient,
-    private localStorage: LocalStorageService,
-  ) {
-  }
-
   getToken(): string {
-    return this.localStorage.getItem(this.TOKEN_KEY);
+    return this.localStorage.getItem(TOKEN_KEY);
   }
 
   isAuth$(): Observable<boolean> {
@@ -45,38 +47,31 @@ export class AuthService {
       );
   }
 
-  login(data: { login: string, password: string }): Observable<User> {
+  login(data: { login: string, password: string }): Observable<string> {
     return this.http.post(ApiConfig.LOGIN_URL, data)
       .pipe(
         pluck('token'),
-        switchMap((token: string) => this.getUser(token))
+        tap((token: string) => this.store.dispatch(loadUser({ token })))
       );
   }
 
   getUser(token: string): Observable<User> {
     return this.http.post(ApiConfig.USER_INFO_URL, {token})
       .pipe(
-        tap((user: IUser) => this.localStorage.setItem(this.USER_KEY, user)),
-        tap(({ fakeToken }) => this.localStorage.setItem(this.TOKEN_KEY, fakeToken)),
-        map((user: IUser) => new User(user)),
-        tap((user: User) => this.userSink.next(user))
+        tap((user: IUser) => this.localStorage.setItem(USER_KEY, user)),
+        tap(({ fakeToken }) => this.localStorage.setItem(TOKEN_KEY, fakeToken)),
+        map((user: IUser) => new User(user))
       );
   }
 
   logout(): Observable<boolean> {
     this.localStorage.removeAll();
-    this.userSink.next(null);
+    this.store.dispatch(deleteUser());
 
     return of(true);
   }
 
   isAuthenticated(): boolean {
-    return !!this.localStorage.getItem(this.TOKEN_KEY);
-  }
-
-  getInitialUser(): User | null {
-    const user = this.localStorage.getItem(this.USER_KEY);
-
-    return user ? new User(user) : null;
+    return !!this.localStorage.getItem(TOKEN_KEY);
   }
 }

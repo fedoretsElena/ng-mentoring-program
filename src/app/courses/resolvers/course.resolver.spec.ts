@@ -1,70 +1,64 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
 
-import { of, throwError } from 'rxjs';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MemoizedSelector, Store } from '@ngrx/store';
+import { of } from 'rxjs';
 
 import { CourseResolver } from './course.resolver';
-import { CoursesService } from '../services';
 import { Course } from '../entitites';
+import { getCourseByUrl } from '../store';
+import { AppState } from '../../core/store';
 
 describe('CourseResolver', () => {
   let service: CourseResolver;
-  let coursesServiceSpy: jasmine.SpyObj<CoursesService>;
+
+  let mockStore: MockStore<AppState>;
+  let mockCourseSelector: MemoizedSelector<AppState, Course>;
 
   let route: ActivatedRoute;
-  let routerSpy: jasmine.SpyObj<Router>;
 
   beforeEach(() => {
-    const coursesSpy = jasmine.createSpyObj('CoursesService', ['getItemById']);
-    const routerValueSpy = jasmine.createSpyObj('Router', ['navigate']);
 
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule
       ],
-      providers: [{
-        provide: CoursesService,
-        useValue: coursesSpy
-      }, {
+      providers: [
+        {
         provide: ActivatedRoute,
         useValue: {
           snapshot: {
             paramMap: convertToParamMap({id: '2'})
           }
         }
-      }, {
-        provide: Router,
-        useValue: routerValueSpy
-      }
+      },
+        provideMockStore()
       ]
     });
 
     service = TestBed.get(CourseResolver);
-    coursesServiceSpy = TestBed.get(CoursesService);
+    mockStore = TestBed.get(Store);
+    mockCourseSelector = mockStore.overrideSelector(getCourseByUrl, {} as Course);
 
     route = TestBed.get(ActivatedRoute);
-    routerSpy = TestBed.get(Router);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call getItemById() after resolve', () => {
-    coursesServiceSpy.getItemById.and.returnValue(of(new Course()));
+  it('should call store after resolve', () => {
+    const course = new Course({id: 1, title: 'ZAQWSXC'});
+    const storeSpy = spyOn(mockStore, 'select').and.returnValue(of(course));
+
+    mockCourseSelector.setResult(course as Course);
+    mockStore.refreshState();
 
     service.resolve(route.snapshot).subscribe();
 
-    expect(coursesServiceSpy.getItemById).toHaveBeenCalled();
-  });
-
-  it('should redirect to courses if there is no such item', () => {
-    coursesServiceSpy.getItemById.and.returnValue(throwError('There is no such product'));
-
-    service.resolve(route.snapshot).subscribe();
-
-    expect(routerSpy.navigate).toHaveBeenCalledWith(['/courses']);
+    expect(storeSpy).toHaveBeenCalled();
   });
 });
 

@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 import { CoursesService } from '../../services';
 import { Course, Filters, Pagination } from '../../entitites';
 import { SelectOption } from '../../../shared';
+import { AppState } from '../../../core/store/app.state';
+import { loadCourses, getCoursesData, deleteCourse, getCoursesLoading } from '../../store';
+import { startWith, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cs-courses',
@@ -12,7 +16,8 @@ import { SelectOption } from '../../../shared';
   styleUrls: ['./courses.component.scss']
 })
 export class CoursesComponent implements OnInit {
-  courses$: Observable<Course[]> = this.coursesService.courses$;
+  courses$: Observable<Course[]>;
+  loading$: Observable<boolean>;
   pagination$: Observable<Pagination> = this.coursesService.pagination$;
 
   sortByOptions: SelectOption[] = [{
@@ -33,15 +38,29 @@ export class CoursesComponent implements OnInit {
   };
 
   constructor(
+    private store: Store<AppState>,
     private coursesService: CoursesService
   ) {}
 
   ngOnInit() {
+    this.loading$ = this.store.select(getCoursesLoading)
+      .pipe(
+        startWith(true)
+      );
+    this.courses$ = this.store.select(getCoursesData)
+      .pipe(
+        tap(courses => {
+          if (!courses.length) {
+            this.store.dispatch(loadCourses({ filters: this.filters }));
+          }
+        })
+      );
+
     this.coursesService.onFiltersChange(this.filters);
   }
 
   onDeleteCourse(courseId: number): void {
-    this.coursesService.removeItem(courseId).subscribe();
+    this.store.dispatch(deleteCourse({ id: courseId }));
   }
 
   onPreviousPage(): void {
@@ -66,6 +85,7 @@ export class CoursesComponent implements OnInit {
     this.filters  = { ...this.filters, ...filters };
 
     this.coursesService.onFiltersChange(this.filters);
+    this.store.dispatch(loadCourses({ filters: this.filters }));
   }
 }
 

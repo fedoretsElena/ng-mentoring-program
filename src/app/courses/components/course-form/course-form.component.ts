@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
-import { CoursesService } from '../../services';
+import { Store } from '@ngrx/store';
+
+import { addCourse, updateCourse } from '../../store';
+import { AppState } from '../../../core/store/app.state';
+import { ICourse } from '../../entitites';
 
 @Component({
   selector: 'cs-course-form',
@@ -19,9 +23,8 @@ export class CourseFormComponent implements OnInit {
   isCreateMode = true;
 
   constructor(
-    private router: Router,
     private route: ActivatedRoute,
-    private coursesService: CoursesService
+    private store: Store<AppState>
   ) {
   }
 
@@ -30,11 +33,13 @@ export class CourseFormComponent implements OnInit {
   }
 
   onSubmit(value = this.courseForm): void {
-    value.authors = value.authors ? this.prepareAuthors(value.authors) : [];
+    const prepared = { ...value };
+    prepared.authors = prepared.authors ? this.prepareAuthors(prepared.authors) : [];
 
-    const source$ = this.coursesService[this.isCreateMode ? 'createCourse' : 'updateItem'](value);
-
-    source$.subscribe(() => this.router.navigate(['/courses']));
+    this.store.dispatch(
+      this.isCreateMode
+        ? addCourse({ course: prepared as ICourse})
+        : updateCourse({ course: prepared as ICourse }));
   }
 
   onChange(value: string, key: string): void {

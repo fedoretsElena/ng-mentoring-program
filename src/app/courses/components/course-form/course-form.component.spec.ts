@@ -1,33 +1,29 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-import { of } from 'rxjs';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { Store } from '@ngrx/store';
 
 import { CourseFormComponent } from './course-form.component';
 import { SharedModule } from '../../../shared';
-import { CoursesService } from '../../services';
-import { Course } from '../../entitites';
+import { Course, ICourse } from '../../entitites';
+import { AppState } from '../../../core/store';
+import { addCourse, updateCourse } from '../../store';
 
-class MockCoursesService {
-  updateItem() {
-  }
-
-  createCourse() {
-  }
-}
+const mockCourse = new Course({
+  creationDate: new Date(),
+  authors: [{
+    id: 1,
+    name: 'Oleg',
+    lastName: 'Donsov'
+  }]
+});
 
 const mockRoute = {
   snapshot: {
     data: {
-      course: new Course({
-        creationDate: new Date(),
-        authors: [{
-          id: 1,
-          name: 'Oleg',
-          lastName: 'Donsov'
-        }]
-      })
+      course: mockCourse
     }
   }
 };
@@ -35,22 +31,12 @@ const mockRoute = {
 describe('CourseFormComponent', () => {
   let component: CourseFormComponent;
   let fixture: ComponentFixture<CourseFormComponent>;
-  let coursesService: CoursesService;
-
-  let routerValueSpy: jasmine.SpyObj<Router>;
+  let mockStore: MockStore<AppState>;
 
   beforeEach(async(() => {
-    const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
-
     TestBed.configureTestingModule({
       declarations: [CourseFormComponent],
-      providers: [{
-        provide: CoursesService,
-        useClass: MockCoursesService
-      }, {
-        provide: Router,
-        useValue: routerSpy
-      }, {
+      providers: [provideMockStore(), {
         provide: ActivatedRoute,
         useValue: mockRoute
       }],
@@ -65,8 +51,7 @@ describe('CourseFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CourseFormComponent);
     component = fixture.componentInstance;
-    coursesService = TestBed.get(CoursesService);
-    routerValueSpy = TestBed.get(Router);
+    mockStore = TestBed.get(Store);
 
     fixture.detectChanges();
   });
@@ -77,28 +62,31 @@ describe('CourseFormComponent', () => {
   });
 
   describe('onSubmit()', () => {
-    it('should call updateItem() if it is editing mode', () => {
-      const updateSpy = spyOn(coursesService, 'updateItem').and.returnValue(of());
-      const createSpy = spyOn(coursesService, 'createCourse').and.returnValue(of());
+    it('should dispatch updateCourse if it is editing mode', () => {
+      const course = { ...mockCourse, authors: []};
+      const updateSpy = spyOn(mockStore, 'dispatch');
       component.isCreateMode = false;
       component.courseForm = {
+       ...course,
         authors: null
-      } as any;
+      };
 
       component.onSubmit();
 
-      expect(updateSpy).toHaveBeenCalledWith({ authors: [] });
-      expect(createSpy).not.toHaveBeenCalled();
+      expect(updateSpy).toHaveBeenCalledTimes(1);
+      expect(updateSpy).toHaveBeenCalledWith(updateCourse({course}));
     });
 
-    it('should call createCourse() if it is creating mode', () => {
-      const createSpy = spyOn(coursesService, 'createCourse').and.returnValue(of(new Course()));
+    it('should dispatch addCourse if it is creating mode', () => {
+      const course = {...mockCourse, authors: [{ name: 'Ted', lastName: 'Stoun'}]} as ICourse;
+      const updateSpy = spyOn(mockStore, 'dispatch');
       component.isCreateMode = true;
+      component.courseForm = {...mockCourse, authors: 'Ted Stoun'};
 
       component.onSubmit();
 
-      expect(createSpy).toHaveBeenCalled();
-      expect(routerValueSpy.navigate).toHaveBeenCalledWith(['/courses']);
+      expect(updateSpy).toHaveBeenCalledTimes(1);
+      expect(updateSpy).toHaveBeenCalledWith(addCourse({course}));
     });
 
     it('should change form value after call onChange output', () => {

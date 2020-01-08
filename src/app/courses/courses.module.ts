@@ -4,11 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 import { SharedModule } from '../shared';
 import { components, CoursesComponent } from './components';
 import { directives } from './directives';
 import { pipes } from './pipes';
+
+import { CoursesEffects, coursesFeatureKey, coursesReducer } from './store';
 
 
 @NgModule({
@@ -23,6 +27,8 @@ import { pipes } from './pipes';
     RouterModule,
 
     SweetAlert2Module,
+    StoreModule.forFeature(coursesFeatureKey, coursesReducer),
+    EffectsModule.forFeature([CoursesEffects]),
 
     SharedModule
   ],
