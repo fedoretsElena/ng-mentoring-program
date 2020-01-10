@@ -1,0 +1,25 @@
+.input {
+
+  &__wrapper {
+    position: relative;
+  }
+
+  &__el {
+    resize: none;
+  }
+
+  &__selected {
+    top: 0;
+    left: 0;
+    position: absolute;
+  }
+}
+
+.suggestions {
+  overflow: auto;
+  max-height: 150px;
+}
+
+.badge i {
+  cursor: pointer;
+}

@@ -57,19 +57,8 @@ describe('LoginComponent', () => {
       login: 'test@fmail.com'
     };
 
-    component.loginForm = loginForm;
-    fixture.detectChanges();
-
-    component.onSubmit(new Event('submit'));
+    component.onSubmit(new Event('submit'), loginForm);
 
     expect(serviceSpy).toHaveBeenCalledWith(loginForm);
-  });
-
-  it('should change form value after call onChange output', () => {
-    const key = 'login';
-    const value = 'test1';
-    component.onChange(value, key);
-
-    expect(component.loginForm[key]).toBe(value);
   });
 });

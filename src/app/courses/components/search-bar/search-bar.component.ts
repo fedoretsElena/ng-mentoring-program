@@ -1,41 +1,30 @@
-import { Component, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
-import { Subject, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cs-search-bar',
   templateUrl: './search-bar.component.html',
   styleUrls: ['./search-bar.component.scss']
 })
-export class SearchBarComponent implements OnDestroy {
-  private searchSink: Subject<string> = new Subject<string>();
-  private searchSub: Subscription;
+export class SearchBarComponent {
+  searchControl: FormControl = new FormControl(null);
 
   @Output()
   changeSearch: EventEmitter<string> = new EventEmitter<string>();
 
-  search: string;
-
-  search$ = this.searchSink.asObservable()
+  search$ = this.searchControl.valueChanges
     .pipe(
       distinctUntilChanged(),
       debounceTime(200),
-      filter((query: string) => query === null || query.length >= 3)
+      filter((query: string) => query === null || query.length >= 3),
+      tap((value: string) => this.changeSearch.emit(value))
     );
 
-  constructor() {
+  constructor() {}
 
-    this.searchSub = this.search$.subscribe((value: string) => {
-      this.changeSearch.emit(value);
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.searchSub.unsubscribe();
-  }
-
-  onSubmit(value: string): void {
-    this.searchSink.next(value);
+  onReset(): void {
+    this.searchControl.reset();
   }
 }

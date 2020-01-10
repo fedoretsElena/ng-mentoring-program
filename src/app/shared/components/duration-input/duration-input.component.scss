@@ -1,0 +1,11 @@
+.input {
+  position: relative;
+
+  &:after {
+    top: 2rem;
+    left: calc(100% + 1rem);
+    position: absolute;
+    white-space: nowrap;
+    content: attr(data-duration);
+  }
+}

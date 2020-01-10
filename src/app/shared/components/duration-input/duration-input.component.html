@@ -1,0 +1,28 @@
+<div
+  class="form-group input mb-3"
+  [attr.data-duration]="duration | csDuration"
+>
+  <div class="d-flex justify-content-between">
+    <label
+      class="input__lbl text-secondary mb-1"
+      [for]="id"
+    >{{ label }}</label>
+
+    <cs-input-errors
+      class="input__errors"
+      [control]="control"
+      *ngIf="control.touched"
+    ></cs-input-errors>
+  </div>
+
+  <input
+    class="input__el form-control pr-5"
+    [id]="id"
+    [placeholder]="placeholder"
+    [(ngModel)]="duration"
+    (ngModelChange)="writeValue(duration)"
+    (blur)="onBlur()"
+    [class.is-invalid]="control.invalid && control.touched"
+    [class.is-valid]="control.valid && control.touched"
+  >
+</div>

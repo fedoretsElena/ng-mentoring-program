@@ -6,5 +6,6 @@ export class ApiConfig {
   static USER_INFO_URL = `${ApiConfig.AUTH_BASE_URL}userinfo/`;
 
   static COURSES_BASE_URL = `${ApiConfig.BASE_URL}courses/`;
+  static AUTHORS_BASE_URL = `${ApiConfig.BASE_URL}authors/`;
 
 }

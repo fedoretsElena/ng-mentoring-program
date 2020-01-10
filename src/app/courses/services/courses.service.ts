@@ -53,7 +53,7 @@ export class CoursesService {
 
     return this.http.get(ApiConfig.COURSES_BASE_URL, {params})
       .pipe(
-        map((items: ICourse[]) => items.map((i) => new Course(i)))
+        map((items: IExtendedCourse[]) => items.map((i) => new Course(i)))
       );
   }
 
@@ -64,7 +64,7 @@ export class CoursesService {
   getItemById(id: number): Observable<Course> {
     return this.http.get(ApiConfig.COURSES_BASE_URL + id)
       .pipe(
-        map((course: ICourse) => new Course(course)),
+        map((course: IExtendedCourse) => new Course(course)),
         tap(course => this.currCourse = course),
         catchError(() => throwError(`Error: Course with id ${id} does not exist.`))
       );

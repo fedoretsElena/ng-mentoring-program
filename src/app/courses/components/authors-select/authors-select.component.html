@@ -1,0 +1,51 @@
+<div class="dropdown form-group input mb-3">
+  <div class="d-flex justify-content-between">
+    <label
+      class="input__lbl text-secondary mb-1"
+      [for]="id"
+    >{{ label }}</label>
+
+    <cs-input-errors
+      class="input__errors"
+      [control]="control"
+      *ngIf="control.touched"
+    ></cs-input-errors>
+  </div>
+
+  <div class="input__wrapper">
+    <div class="input__selected p-1">
+      <span
+        class="badge badge-secondary p-1 mt-1 ml-1"
+        *ngFor="let author of selected"
+      >
+        {{ author.name }}
+        <i
+          class="fa fa-times pl-3"
+          (click)="onDelete(author)"
+        ></i>
+      </span>
+    </div>
+
+    <textarea
+      class="input__el form-control"
+      rows="1"
+      (focus)="toggleDropdown(true)"
+      (blur)="onBlur()"
+      [placeholder]="placeholder"
+      [(ngModel)]="search"
+      [ngStyle]="{ paddingTop: getVerticalPadding(selected.length) }"
+      [class.is-invalid]="control.invalid && control.touched"
+      [class.is-valid]="control.valid && control.touched"
+    ></textarea>
+  </div>
+
+  <div class="suggestions dropdown-menu w-100"
+       [class.show]="isOpen && search.length && availableAuthors.length"
+  >
+    <a
+      class="dropdown-item"
+      *ngFor="let author of availableAuthors"
+      (click)="onSelect(author)"
+    >{{ author.name }}</a>
+  </div>
+</div>

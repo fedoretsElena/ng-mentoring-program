@@ -1,0 +1,22 @@
+<div class="errors">
+  <span
+    class="error"
+    *ngIf="control.hasError('required')"
+  >*required</span>
+  <span
+    class="error"
+    *ngIf="control.hasError('maxlength')"
+  >too long</span>
+  <span
+    class="error"
+    *ngIf="control.hasError('dateFormat')"
+  >should be 'dd/mm/yyyy'</span>
+  <span
+    class="error"
+    *ngIf="control.hasError('onlyNumbers')"
+  >only numbers allow</span>
+  <span
+    class="error"
+    *ngIf="control.hasError('minArrLength')"
+  >should be selected at least one</span>
+</div>

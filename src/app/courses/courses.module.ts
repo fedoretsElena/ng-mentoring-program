@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
@@ -25,6 +25,7 @@ import { CoursesEffects, coursesFeatureKey, coursesReducer } from './store';
     CommonModule,
     FormsModule,
     RouterModule,
+    ReactiveFormsModule,
 
     SweetAlert2Module,
     StoreModule.forFeature(coursesFeatureKey, coursesReducer),
