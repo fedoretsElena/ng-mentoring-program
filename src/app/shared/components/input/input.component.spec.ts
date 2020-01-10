@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { InputComponent } from './input.component';
+import { InputErrorsComponent } from '../input-errors';
 
 describe('InputComponent', () => {
   let component: InputComponent;
@@ -10,9 +10,13 @@ describe('InputComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InputComponent ],
+      declarations: [
+        InputComponent,
+        InputErrorsComponent
+      ],
       imports: [
-        FormsModule
+        FormsModule,
+        ReactiveFormsModule
       ]
     })
     .compileComponents();
@@ -21,22 +25,11 @@ describe('InputComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(InputComponent);
     component = fixture.componentInstance;
+    component.control = new FormControl();
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should emit output after change input', (done) => {
-    const value = 'test value';
-
-    component.changeValue.subscribe((received) => {
-      expect(received).toBe(value);
-
-      done();
-    });
-
-    component.onModelChanged(value);
   });
 });

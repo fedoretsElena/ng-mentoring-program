@@ -6,7 +6,7 @@ export interface ICourse {
   duration: number;
   description: string;
   isTopRated: boolean;
-  authors: IAuthor[];
+  authors: Author[];
   creationDate: Date | string;
 }
 
@@ -15,6 +15,7 @@ export interface IExtendedCourse extends ICourse {
   length: number;
   name: string;
   date: Date | string;
+  authors: IAuthor[];
 }
 
 export class Course implements Partial<ICourse> {

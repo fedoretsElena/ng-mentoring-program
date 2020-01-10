@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -15,6 +15,7 @@ import { privateComponents, sharedComponents } from './components';
   imports: [
     RouterModule,
     FormsModule,
+    ReactiveFormsModule,
     CommonModule
   ],
   exports: [

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { AuthService } from '../../../core';
 
@@ -8,29 +9,27 @@ import { AuthService } from '../../../core';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
-  loginForm = {
-    login: 'Morales',
-    password: 'id'
-  };
+export class LoginComponent {
+  loginForm: FormGroup;
 
   constructor(
+    private router: Router,
+    private fb: FormBuilder,
     private authService: AuthService,
-    public router: Router
   ) {
+    this.loginForm = this.fb.group({
+      login: [null, [
+        Validators.required
+      ]],
+      password: [null, [
+        Validators.required
+      ]]
+    });
   }
 
-  ngOnInit() {
-  }
+  onSubmit(event, value: { login: string, password: string }): void {
+    event.preventDefault();
 
-  onChange(value: string, key: string): void {
-    this.loginForm[key] = value;
-  }
-
-  onSubmit($event): void {
-    $event.preventDefault();
-
-    this.authService.login(this.loginForm)
-      .subscribe();
+    this.authService.login(value).subscribe();
   }
 }

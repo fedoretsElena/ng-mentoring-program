@@ -50,7 +50,7 @@ export class CoursesComponent implements OnInit {
     this.courses$ = this.store.select(getCoursesData)
       .pipe(
         tap(courses => {
-          if (!courses.length) {
+          if (!courses.length && !this.filters.textFragment) {
             this.store.dispatch(loadCourses({ filters: this.filters }));
           }
         })

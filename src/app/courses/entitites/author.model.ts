@@ -1,16 +1,15 @@
-import { User } from '../../core';
-
-export interface IAuthor {
+export interface Author {
   id: number;
-  name?: string;
-  lastName: string;
+  name: string;
 }
 
-export class Author extends User {
-  constructor(options) {
-    super(options);
+export interface IAuthor extends Author {
+  lastName?: string;
+}
 
-    this.firstName = options.name;
-    this.lastName = options.lastName;
-  }
+export class Author {
+  constructor(options: IAuthor,
+              public id = options.id,
+              public name = `${options.name} ${options.lastName}`
+  ) {}
 }

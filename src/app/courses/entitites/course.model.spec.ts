@@ -24,6 +24,6 @@ describe('CourseModel', () => {
       }]
     });
 
-    expect(course.authors[0].fullName).toBe('Stasya Levkina');
+    expect(course.authors[0].name).toBe('Stasya Levkina');
   });
 });

@@ -1,9 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { Observable, of } from 'rxjs';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { MockDirective } from 'ng-mocks';
@@ -50,6 +49,7 @@ describe('CoursesComponent', () => {
       ],
       imports: [
         FormsModule,
+        ReactiveFormsModule,
         RouterTestingModule,
 
         SharedModule
@@ -101,6 +101,7 @@ describe('CoursesComponent', () => {
     expect(onChangeFiltersSpy).toHaveBeenCalledTimes(2);
   });
 
+  // left for example
   xit('should call onLoad after click on load button', () => {
     const spy = spyOn(component, 'onLoadMore');
 

@@ -1,0 +1,15 @@
+@import "../../../../styles/custom/variables";
+
+.errors {
+  color: #6c7283;
+  font-size: $font-size-tiny;
+
+   & > span:not(:first-child) {
+    display: none;
+  }
+}
+
+.error {
+  line-height: 21px;
+  white-space: nowrap;
+}

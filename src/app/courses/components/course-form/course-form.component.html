@@ -1,6 +1,7 @@
 <section class="p-4">
   <form
     class="course-form p-4 rounded mx-auto secondary-shadow"
+    (submit)="onSubmit(courseForm.value)"
   >
     <h4 class="course-form__title mb-3">{{ isCreateMode ? 'New' : 'Edit' }} course</h4>
 
@@ -8,9 +9,7 @@
       class="course-form__input"
       label="Title:"
       placeholder="Text input"
-      [control]="courseForm.title"
-      [isRequired]="true"
-      (changeValue)="onChange($event, 'title')"
+      [control]="courseForm.get('title')"
     ></cs-input>
 
     <cs-input
@@ -18,43 +17,30 @@
       label="Description:"
       placeholder="Add description"
       [textarea]="true"
-      [control]="courseForm.description"
-      [isRequired]="true"
-      (changeValue)="onChange($event, 'description')"
+      [control]="courseForm.get('description')"
     ></cs-input>
 
-    <div class="d-flex align-items-center">
-      <cs-input
-        class="course-form__input--sm d-block mr-2 pr-1"
-        label="Duration:"
-        placeholder="minutes"
-        type="number"
-        [control]="courseForm.duration"
-        [isRequired]="true"
-        (changeValue)="onChange($event, 'duration')"
-      ></cs-input>
+    <cs-duration-input
+      class="course-form__input--sm d-block"
+      label="Duration:"
+      placeholder="minutes"
+      [formControl]="courseForm.get('duration')"
+    ></cs-duration-input>
 
-      <div class="duration"> {{ courseForm.duration | csDuration }} </div>
-    </div>
-
-    <cs-input
+    <cs-datepicker
       class="course-form__input--sm d-block"
       label="Date:"
-      placeholder="mm-dd-yyyy"
-      type="date"
-      [control]="courseForm.creationDate"
-      [isRequired]="true"
-      (changeValue)="onChange($event, 'creationDate')"
-    ></cs-input>
+      placeholder="mm/dd/yyyy"
+      [formControl]="courseForm.get('creationDate')"
+    ></cs-datepicker>
 
-    <cs-input
+    <cs-authors-select
       class="course-form__input--md d-block"
       label="Authors:"
       placeholder="Start typing"
-      [control]="courseForm.authors"
-      [isRequired]="true"
-      (changeValue)="onChange($event, 'authors')"
-    ></cs-input>
+      [authors]="(authors$ | async) || []"
+      [formControl]="courseForm.get('authors')"
+    ></cs-authors-select>
 
     <div class="d-flex justify-content-end mt-4">
       <button
@@ -63,7 +49,8 @@
       >Cancel</button>
       <button
         class="btn btn-success  btn-sm px-2 ml-2 text-light"
-        (click)="onSubmit()"
+        type="submit"
+        [disabled]="courseForm.invalid"
       >Save</button>
     </div>
   </form>

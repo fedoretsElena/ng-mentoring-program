@@ -12,25 +12,18 @@
     ></cs-input-errors>
   </div>
 
-  <ng-template #inputEl>
-    <input
-      class="input__el form-control"
-      [id]="id"
-      [placeholder]="placeholder"
-      [formControl]="control"
-      [class.is-invalid]="control.invalid && control.touched"
-      [class.is-valid]="control.valid && control.touched"
-    >
-  </ng-template>
-
-  <textarea
-    class="input__el form-control"
-    rows="4"
+  <input
+    class="input__el form-control pr-5"
+    [id]="id"
     [placeholder]="placeholder"
-    [formControl]="control"
+    [(ngModel)]="date"
+    (ngModelChange)="writeValue(date)"
+    (blur)="onBlur()"
     [class.is-invalid]="control.invalid && control.touched"
     [class.is-valid]="control.valid && control.touched"
-    *ngIf="textarea; else inputEl"
-  ></textarea>
+  >
 
+  <i
+    class="date-icon far fa-calendar"
+  ></i>
 </div>

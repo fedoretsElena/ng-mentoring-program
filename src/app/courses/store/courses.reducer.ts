@@ -3,7 +3,6 @@ import { Action, createReducer, on } from '@ngrx/store';
 import { initialCoursesState, coursesAdapter, CoursesState } from './courses.state';
 
 import * as coursesActions from './courses.actions';
-import { Author, Course } from '../entitites';
 
 export const coursesFeatureKey = 'courses';
 
@@ -17,9 +16,9 @@ const reducer = createReducer(
   })),
   on(coursesActions.updateCourseSuccess, (state, {course}) => coursesAdapter.updateOne({
     id: course.id,
-    changes: {...course, authors: course.authors.map(author => new Author(author))}
+    changes: course
   }, state)),
-  on(coursesActions.addCourseSuccess, (state, {course}) => coursesAdapter.addOne(new Course(course), state)),
+  on(coursesActions.addCourseSuccess, (state, {course}) => coursesAdapter.addOne(course, state)),
   on(coursesActions.deleteCourseSuccess, (state, {id}) => coursesAdapter.removeOne(id, state)),
   on(
     coursesActions.addCourseFailure,

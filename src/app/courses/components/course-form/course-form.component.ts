@@ -1,49 +1,65 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
+import * as moment from 'moment';
 
 import { addCourse, updateCourse } from '../../store';
 import { AppState } from '../../../core/store/app.state';
 import { ICourse } from '../../entitites';
+import { AuthorsService } from '../../services';
 
 @Component({
   selector: 'cs-course-form',
   templateUrl: './course-form.component.html',
-  styleUrls: ['./course-form.component.scss']
+  styleUrls: ['./course-form.component.scss'],
 })
 export class CourseFormComponent implements OnInit {
-  courseForm = {
-    title: null,
-    description: null,
-    duration: null,
-    creationDate: null,
-    authors: null
-  };
+  courseForm: FormGroup;
   isCreateMode = true;
+
+  authors$ = this.authorsService.getAuthors();
 
   constructor(
     private route: ActivatedRoute,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private fb: FormBuilder,
+    private authorsService: AuthorsService
   ) {
+    this.courseForm = this.fb.group({
+      id: null,
+      title: [null, [
+        Validators.required,
+        Validators.maxLength(50)
+      ]],
+      description: [null, [
+        Validators.required,
+        Validators.maxLength(500)
+      ]],
+      creationDate: [null, [
+        Validators.required
+      ]],
+      duration: [null, [
+        Validators.required
+      ]],
+      authors: [[], [
+        Validators.required
+      ]]
+    });
   }
 
   ngOnInit() {
     this.checkCourseDataFromResolver();
   }
 
-  onSubmit(value = this.courseForm): void {
-    const prepared = { ...value };
-    prepared.authors = prepared.authors ? this.prepareAuthors(prepared.authors) : [];
+  onSubmit(value: ICourse): void {
+    const prepared = { ...value, creationDate: moment(value.creationDate).format()};
 
     this.store.dispatch(
       this.isCreateMode
-        ? addCourse({ course: prepared as ICourse})
-        : updateCourse({ course: prepared as ICourse }));
-  }
-
-  onChange(value: string, key: string): void {
-    this.courseForm[key] = value;
+        ? addCourse({ course: prepared })
+        : updateCourse({ course: prepared }));
   }
 
   private checkCourseDataFromResolver() {
@@ -51,17 +67,11 @@ export class CourseFormComponent implements OnInit {
 
     if (course) {
       this.isCreateMode = false;
-      this.courseForm = {
-        ...course,
-        creationDate: new Date(course.creationDate).toISOString().slice(0, 10),
-        authors: course.authors.map((author) => author.fullName).join(', ')
-      };
-    }
-  }
 
-  private prepareAuthors(authors: string): { name: string; lastName: string }[] {
-    return authors.split(', ')
-      .map((name) => name.split(' '))
-      .map(([name, lastName]) => ({name, lastName}));
+      this.courseForm.patchValue({
+        ...course,
+        creationDate: moment(course.creationDate).format( 'DD/MM/YYYY')
+      });
+    }
   }
 }
