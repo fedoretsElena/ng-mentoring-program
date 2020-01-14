@@ -52,7 +52,7 @@ export class AuthorsSelectComponent implements ControlValueAccessor, Validator {
         const selectedIds: number[] = this.selected.map((item) => item.id);
         return !selectedIds.includes(author.id);
       })
-      .filter((author) => author.name.toLowerCase().includes(this.search.toLowerCase()));
+      .filter((author) => author.name.toLowerCase().indexOf(this.search.toLowerCase()) === 0);
   }
 
   constructor() { }
