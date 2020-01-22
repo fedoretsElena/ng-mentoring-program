@@ -2,6 +2,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { of } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared';
@@ -13,6 +14,8 @@ class MockAuthService {
     return of(true);
   }
 }
+
+class MockTranslateService {}
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -31,6 +34,9 @@ describe('AppComponent', () => {
       providers: [{
         provide: AuthService,
         useClass: MockAuthService
+      }, {
+        provide: TranslateService,
+        useClass: MockTranslateService
       }]
     }).compileComponents();
   }));

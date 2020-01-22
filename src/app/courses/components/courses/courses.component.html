@@ -11,10 +11,10 @@
         *ngIf="pagination$ | async as pagination"
       >
         <li class="page-item" [class.disabled]="!pagination.isPrevExist">
-          <a class="page-link" (click)="onPreviousPage()">Previous</a>
+          <a class="page-link" (click)="onPreviousPage()">{{ "PAGINATION.PREV_BTN" | translate }}</a>
         </li>
         <li class="page-item" [class.disabled]="!pagination.isNextExist">
-          <a class="page-link" (click)="onLoadMore()">Next</a>
+          <a class="page-link" (click)="onLoadMore()">{{ "PAGINATION.NEXT_BTN" | translate }}</a>
         </li>
       </ul>
     </nav>
@@ -22,7 +22,7 @@
     <div class="d-flex align-items-center">
       <cs-select
         class="mr-3"
-        label="Group by"
+        [label]="'SORT_BY_SELECT.LABEL' | translate"
         [options]="sortByOptions"
         [initial]="filters.sort"
         (selected)="onSelectSortBy($event)"
@@ -43,7 +43,7 @@
         class="load-more-btn rounded text-uppercase btn-link text-info text-center mt-4 p-3 link primary-shadow"
         (click)="onLoadMore()"
         *ngIf="pagination.isNextExist"
-      >load more
+      >{{ "BUTTONS.LOAD_MORE" | translate }}
       </div>
     </ng-container>
 
@@ -51,7 +51,7 @@
       class="alert alert-info w-100 p-3 text-uppercase text-center"
       *ngIf="courses.length === 0 && (loading$ | async) === false"
     >
-      No data. Feel free to add new course.
+      {{ "NO_DATA_MSG" | translate }}
     </div>
 
   </ng-container>

@@ -5,12 +5,13 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { Store } from '@ngrx/store';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { of } from 'rxjs';
 
 import { CourseFormComponent } from './course-form.component';
 import { SharedModule } from '../../../shared';
-import { Course, ICourse } from '../../entitites';
+import { Course } from '../../entitites';
 import { AppState } from '../../../core/store';
-import { addCourse, updateCourse } from '../../store';
 
 const mockCourse = new Course({
   creationDate: new Date(),
@@ -29,6 +30,12 @@ const mockRoute = {
   }
 };
 
+class FakeTranslateLoader implements TranslateLoader {
+  public getTranslation(_: any) {
+    return of();
+  }
+}
+
 describe('CourseFormComponent', () => {
   let component: CourseFormComponent;
   let fixture: ComponentFixture<CourseFormComponent>;
@@ -43,7 +50,10 @@ describe('CourseFormComponent', () => {
       }],
       imports: [
         SharedModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        TranslateModule.forRoot({
+          loader: { provide: TranslateLoader, useClass: FakeTranslateLoader}
+        })
       ],
       schemas: [NO_ERRORS_SCHEMA]
     })

@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormsModule } from '@angular/forms';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 import { DatepickerComponent } from './datepicker.component';
 import { InputErrorsComponent } from '../input-errors';
 
@@ -15,7 +17,8 @@ describe('DatepickerComponent', () => {
         InputErrorsComponent
       ],
       imports: [
-        FormsModule
+        FormsModule,
+        TranslateModule
       ]
     })
     .compileComponents();

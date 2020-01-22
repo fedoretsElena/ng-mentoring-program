@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 import { SharedModule } from '../shared';
 import { AuthRoutingModule } from './auth-routing.module';
 
@@ -11,6 +13,7 @@ import { AuthRoutingModule } from './auth-routing.module';
   ],
   imports: [
     CommonModule,
+    TranslateModule,
 
     SharedModule,
 

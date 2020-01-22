@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, EventEmitter, Output } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, EventEmitter, Output } from '@angular/core';
 
 import { Course } from '../../entitites';
 
@@ -8,7 +8,7 @@ import { Course } from '../../entitites';
   styleUrls: ['./courses-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CoursesListComponent implements OnInit {
+export class CoursesListComponent {
   @Input()
   courses: Course[];
 
@@ -17,11 +17,7 @@ export class CoursesListComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
-
   onDeleteCourse(id: number): void {
     this.deleteCourse.emit(id);
   }
-
 }

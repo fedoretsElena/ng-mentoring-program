@@ -1,0 +1,60 @@
+{
+  "USER_PANEL": {
+    "LOG_IN": "Log in",
+    "LOG_OFF": "Log off"
+  },
+  "SEARCH_FORM": {
+    "PLACEHOLDER": "Text to search",
+    "RESET_BTN": "Reset"
+  },
+  "PAGINATION": {
+    "NEXT_BTN": "Next",
+    "PREV_BTN": "Previous"
+  },
+  "SORT_BY_SELECT": {
+    "LABEL": "Group by",
+    "CREATION_DATE": "Creation date",
+    "DURATION": "Duration",
+    "TOP_RATED": "Top rated"
+  },
+  "NO_DATA_MSG": "No data. Feel free to add new course.",
+  "BUTTONS": {
+    "ADD_COURSE": "Add course",
+    "LOAD_MORE": "load more",
+    "EDIT": "Edit",
+    "DELETE": "Delete",
+    "CANCEL": "Cancel",
+    "SAVE": "Save"
+  },
+  "COURSE_FORM": {
+    "CREATE_TITLE": "New course",
+    "EDIT_TITLE": "Edit course",
+    "TITLE_LBL": "Title",
+    "TITLE_PLACEHOLDER": "Text input",
+    "DESCRIPTION_LBL": "Description",
+    "DESCRIPTION_PLACEHOLDER": "Add description",
+    "DATE_LBL": "Date",
+    "DATE_PLACEHOLDER": "mm/dd/yyyy",
+    "DURATION_LBL": "Duration",
+    "DURATION_PLACEHOLDER": "minutes",
+    "AUTHORS_LBL": "Authors",
+    "AUTHORS_PLACEHOLDER": "Start typing"
+  },
+  "LOGIN_FORM": {
+    "TITLE": "Login",
+    "EMAIL_LBL": "E-mail",
+    "EMAIL_PLACEHOLDER": "Enter e-mail",
+    "PASSWORD_LBL": "Password",
+    "PASSWORD_PLACEHOLDER": "Enter password",
+    "RESET_BTN": "Reset password",
+    "LOGIN_BTN": "Login"
+  },
+  "ERRORS": {
+    "REQUIRED": "required",
+    "MAX_LENGTH": "too long",
+    "DATE_FORMAT": "should be 'dd/mm/yyyy'",
+    "ONLY_NUMBERS": "only numbers allow",
+    "MIN_ARR_LENGTH": "should be selected at least one"
+  },
+  "COPYRIGHT": "All rights reserved"
+}

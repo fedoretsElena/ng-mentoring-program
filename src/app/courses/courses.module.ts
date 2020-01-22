@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { SharedModule } from '../shared';
 import { components, CoursesComponent } from './components';
@@ -26,6 +27,7 @@ import { CoursesEffects, coursesFeatureKey, coursesReducer } from './store';
     FormsModule,
     RouterModule,
     ReactiveFormsModule,
+    TranslateModule,
 
     SweetAlert2Module,
     StoreModule.forFeature(coursesFeatureKey, coursesReducer),

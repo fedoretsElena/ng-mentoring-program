@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 import { InputErrorsComponent } from './input-errors.component';
 
 describe('InputErrorsComponent', () => {
@@ -9,7 +11,10 @@ describe('InputErrorsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InputErrorsComponent ]
+      declarations: [ InputErrorsComponent ],
+      imports: [
+        TranslateModule
+      ]
     })
     .compileComponents();
   }));

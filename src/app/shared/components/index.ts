@@ -8,6 +8,7 @@ import { SelectComponent } from './select';
 import { InputErrorsComponent } from './input-errors';
 import { DatepickerComponent } from './datepicker';
 import { DurationInputComponent } from './duration-input';
+import { LangSelectComponent } from './lang-select';
 
 export const sharedComponents = [
   BreadcrumbsComponent,
@@ -17,7 +18,8 @@ export const sharedComponents = [
   SelectComponent,
   DatepickerComponent,
   InputErrorsComponent,
-  DurationInputComponent
+  DurationInputComponent,
+  LangSelectComponent
 ];
 
 export const privateComponents = [

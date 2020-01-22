@@ -2,18 +2,18 @@
   class="login-form"
   (submit)="onSubmit($event, loginForm.value)"
 >
-  <h4 class="login-form__title mb-3">Login</h4>
+  <h4 class="login-form__title mb-3">{{ "LOGIN_FORM.TITLE" | translate }}</h4>
 
   <cs-input
     class="login-form__input"
-    label="E-mail:"
-    placeholder="Enter e-mail"
+    [label]="'LOGIN_FORM.EMAIL_LBL' | translate"
+    [placeholder]="'LOGIN_FORM.EMAIL_PLACEHOLDER' | translate"
     [control]="loginForm.get('login')"
   ></cs-input>
   <cs-input
     class="login-form__input"
-    label="Password:"
-    placeholder="Enter password"
+    [label]="'LOGIN_FORM.PASSWORD_LBL' | translate"
+    [placeholder]="'LOGIN_FORM.PASSWORD_PLACEHOLDER' | translate"
     [control]="loginForm.get('password')"
   ></cs-input>
 
@@ -21,10 +21,10 @@
     <button
       class="btn btn-link btn-sm ml-2 text-info"
       routerLink="/auth/reset-password"
-    >Reset password</button>
+    >{{ "LOGIN_FORM.RESET_BTN" | translate }}</button>
     <button
       class="btn btn-success btn-sm text-light py-2 px-3"
       [disabled]="loginForm.invalid"
-    >Login</button>
+    >{{ "LOGIN_FORM.LOGIN_BTN" | translate }}</button>
   </div>
 </form>

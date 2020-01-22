@@ -11,7 +11,7 @@
     <div
       class="d-flex align-items-center link"
       (click)="logout()"
-    ><i class="fas fa-sign-out-alt pr-2"></i> Log off
+    ><i class="fas fa-sign-out-alt pr-2"></i> {{ "USER_PANEL.LOG_OFF" | translate }}
     </div>
   </ng-container>
 </div>
@@ -20,5 +20,5 @@
   <a
     class="d-flex align-items-center link text-light"
     routerLink="/auth/login"
-  > <i class="fas fa-sign-in-alt pr-2"></i> Log in </a>
+  > <i class="fas fa-sign-in-alt pr-2"></i> {{ "USER_PANEL.LOG_IN" | translate }} </a>
 </ng-template>

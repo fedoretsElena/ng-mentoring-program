@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormsModule } from '@angular/forms';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 import { DurationInputComponent } from './duration-input.component';
 import { DurationPipe } from '../../pipes/duration.pipe';
 import { InputErrorsComponent } from '../input-errors';
@@ -17,7 +19,8 @@ describe('DurationInputComponent', () => {
         InputErrorsComponent
       ],
       imports: [
-        FormsModule
+        FormsModule,
+        TranslateModule
       ]
     })
     .compileComponents();

@@ -4,6 +4,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { of } from 'rxjs';
 import { provideMockStore } from '@ngrx/store/testing';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 import { LoginComponent } from './login.component';
 import { SharedModule } from '../../../shared';
@@ -13,6 +14,12 @@ import { mockToken } from '../../../core/mocks';
 class MockAuthService extends AuthService {
   login(data) {
     return of(mockToken);
+  }
+}
+
+class FakeTranslateLoader implements TranslateLoader {
+  public getTranslation(_: any) {
+    return of();
   }
 }
 
@@ -26,6 +33,9 @@ describe('LoginComponent', () => {
       declarations: [LoginComponent],
       imports: [
         RouterTestingModule,
+        TranslateModule.forRoot({
+          loader: { provide: TranslateLoader, useClass: FakeTranslateLoader}
+        }),
         HttpClientTestingModule,
 
         SharedModule
