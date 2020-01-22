@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { UserActionBarComponent } from './user-action-bar.component';
 import { AuthService } from '../../../core/services';
@@ -30,7 +31,8 @@ describe('UserActionBarComponent', () => {
     TestBed.configureTestingModule({
       declarations: [UserActionBarComponent],
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        TranslateModule
       ],
       providers: [{
         provide: AuthService,

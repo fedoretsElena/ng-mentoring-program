@@ -2,11 +2,14 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { of } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { HeaderComponent } from './header.component';
 import { LogoComponent } from '../logo';
 import { UserActionBarComponent } from '../user-action-bar';
 import { AuthService } from '../../../core/services';
+import { LangSelectComponent } from '../lang-select';
+import { SelectComponent } from '../select';
 
 class MockAuthService {
   isAuth$() {
@@ -27,10 +30,13 @@ describe('HeaderComponent', () => {
       declarations: [
         HeaderComponent,
         LogoComponent,
+        LangSelectComponent,
+        SelectComponent,
         UserActionBarComponent
       ],
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        TranslateModule
       ],
       providers: [{
         provide: AuthService,

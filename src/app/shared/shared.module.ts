@@ -3,6 +3,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 import { pipes } from './pipes';
 import { privateComponents, sharedComponents } from './components';
 
@@ -16,7 +18,8 @@ import { privateComponents, sharedComponents } from './components';
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    TranslateModule
   ],
   exports: [
     ...pipes,

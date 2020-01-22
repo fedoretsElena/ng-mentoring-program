@@ -1,0 +1,60 @@
+{
+  "USER_PANEL": {
+    "LOG_IN": "Войти",
+    "LOG_OFF": "Выйти"
+  },
+  "SEARCH_FORM": {
+    "PLACEHOLDER": "Начните поиск",
+    "RESET_BTN": "Очистить"
+  },
+  "PAGINATION": {
+    "NEXT_BTN": ">",
+    "PREV_BTN": "<"
+  },
+  "SORT_BY_SELECT": {
+    "LABEL": "Сгрупировать по",
+    "CREATION_DATE": "Дата создания",
+    "DURATION": "Длительность",
+    "TOP_RATED": "Рейтинг"
+  },
+  "NO_DATA_MSG": "Нет данных. Добавьте новый курс.",
+  "BUTTONS": {
+    "ADD_COURSE": "Добавить курс",
+    "LOAD_MORE": "загрузить ещё",
+    "EDIT": "Редактировать",
+    "DELETE": "Удалить",
+    "CANCEL": "Отмена",
+    "SAVE": "Сохранить"
+  },
+  "COURSE_FORM": {
+    "CREATE_TITLE": "Создание курса",
+    "EDIT_TITLE": "Редактирование курса",
+    "TITLE_LBL": "Название",
+    "TITLE_PLACEHOLDER": "Введите название",
+    "DESCRIPTION_LBL": "Описание",
+    "DESCRIPTION_PLACEHOLDER": "Добавьте описание",
+    "DATE_LBL": "Дата",
+    "DATE_PLACEHOLDER": "mm/dd/yyyy",
+    "DURATION_LBL": "Длительность",
+    "DURATION_PLACEHOLDER": "минуты",
+    "AUTHORS_LBL": "Авторы",
+    "AUTHORS_PLACEHOLDER": "Начните вводить"
+  },
+  "LOGIN_FORM": {
+    "TITLE": "Логин",
+    "EMAIL_LBL": "E-mail",
+    "EMAIL_PLACEHOLDER": "Введите e-mail",
+    "PASSWORD_LBL": "Пароль",
+    "PASSWORD_PLACEHOLDER": "Введите пароль",
+    "RESET_BTN": "Сброс пароля",
+    "LOGIN_BTN": "Отправить"
+  },
+  "ERRORS": {
+    "REQUIRED": "обязательное",
+    "MAX_LENGTH": "слишком длинное",
+    "DATE_FORMAT": "формат 'dd/mm/yyyy'",
+    "ONLY_NUMBERS": "только числа",
+    "MIN_ARR_LENGTH": "минимум 1"
+  },
+  "COPYRIGHT": "Все права сохранены"
+}

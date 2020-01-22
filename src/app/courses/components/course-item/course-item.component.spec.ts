@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { SwalDirective } from '@sweetalert2/ngx-sweetalert2';
 import { MockDirective } from 'ng-mocks';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { CourseItemComponent } from './course-item.component';
 import { courses } from '../../mocks';
@@ -24,9 +25,14 @@ describe('CourseItemComponent', () => {
       ],
       imports: [
         RouterTestingModule,
+        TranslateModule,
 
         SharedModule
-      ]
+      ],
+      providers: [{
+        provide: TranslateService,
+        useClass: { get: (() => '') }
+      }]
     })
     .compileComponents();
   }));

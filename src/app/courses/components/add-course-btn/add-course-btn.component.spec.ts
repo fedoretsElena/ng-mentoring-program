@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { AddCourseBtnComponent } from './add-course-btn.component';
 
@@ -11,8 +12,13 @@ describe('AddCourseBtnComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ AddCourseBtnComponent ],
       imports: [
-        RouterTestingModule
-      ]
+        RouterTestingModule,
+        TranslateModule
+      ],
+      providers: [{
+        provide: TranslateService,
+        useValue: { get: () => '' }
+      }]
     })
     .compileComponents();
   }));

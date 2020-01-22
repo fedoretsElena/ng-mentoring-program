@@ -3,6 +3,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { MockDirective } from 'ng-mocks';
 import { SwalDirective } from '@sweetalert2/ngx-sweetalert2';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { of } from 'rxjs';
 
 import { CoursesListComponent } from './courses-list.component';
 import { CourseItemComponent } from '../course-item';
@@ -25,10 +27,15 @@ describe('CoursesListComponent', () => {
         MockDirective(SwalDirective)
       ],
       imports: [
+        TranslateModule,
         RouterTestingModule,
 
         SharedModule,
-      ]
+      ],
+      providers: [{
+        provide: TranslateService,
+        useValue: { get() { return of(''); }}
+      }]
     })
     .compileComponents();
   }));

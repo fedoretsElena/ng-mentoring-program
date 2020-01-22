@@ -1,34 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { startWith, tap } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
 
 import { CoursesService } from '../../services';
 import { Course, Filters, Pagination } from '../../entitites';
 import { SelectOption } from '../../../shared';
 import { AppState } from '../../../core/store/app.state';
 import { loadCourses, getCoursesData, deleteCourse, getCoursesLoading } from '../../store';
-import { startWith, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cs-courses',
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss']
 })
-export class CoursesComponent implements OnInit {
+export class CoursesComponent implements OnInit, OnDestroy {
   courses$: Observable<Course[]>;
   loading$: Observable<boolean>;
   pagination$: Observable<Pagination> = this.coursesService.pagination$;
 
   sortByOptions: SelectOption[] = [{
     value: 'date',
-    label: 'Creation date'
+    label: null
   }, {
     value: 'length',
-    label: 'Duration'
+    label: null
   }, {
     value: 'isTopRated',
-    label: 'Top rated'
+    label: null
   }];
 
   filters: Filters = {
@@ -37,12 +38,22 @@ export class CoursesComponent implements OnInit {
     sort: 'date'
   };
 
+  private translateSub: Subscription;
+  private readonly translationKeys: string[] = [
+    'SORT_BY_SELECT.CREATION_DATE',
+    'SORT_BY_SELECT.DURATION',
+    'SORT_BY_SELECT.TOP_RATED'
+  ];
+
   constructor(
     private store: Store<AppState>,
+    private translateService: TranslateService,
     private coursesService: CoursesService
   ) {}
 
   ngOnInit() {
+    this.translateOptions();
+
     this.loading$ = this.store.select(getCoursesLoading)
       .pipe(
         startWith(true)
@@ -57,6 +68,10 @@ export class CoursesComponent implements OnInit {
       );
 
     this.coursesService.onFiltersChange(this.filters);
+  }
+
+  ngOnDestroy(): void {
+    this.translateSub.unsubscribe();
   }
 
   onDeleteCourse(courseId: number): void {
@@ -86,6 +101,13 @@ export class CoursesComponent implements OnInit {
 
     this.coursesService.onFiltersChange(this.filters);
     this.store.dispatch(loadCourses({ filters: this.filters }));
+  }
+
+  private translateOptions(): void {
+    this.translateSub = this.translateService.onDefaultLangChange.subscribe(() => {
+      this.sortByOptions = this.sortByOptions
+        .map((option, inx) => ({ ...option, label: this.translateService.instant(this.translationKeys[inx]) }));
+    });
   }
 }
 

@@ -1,8 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormControl, FormsModule } from '@angular/forms';
+
+import { TranslateModule } from '@ngx-translate/core';
 
 import { AuthorsSelectComponent } from './authors-select.component';
 import { InputErrorsComponent } from '../../../shared/components';
-import { FormControl, FormsModule } from '@angular/forms';
 
 describe('AuthorsSelectComponent', () => {
   let component: AuthorsSelectComponent;
@@ -11,7 +13,8 @@ describe('AuthorsSelectComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        FormsModule
+        FormsModule,
+        TranslateModule,
       ],
       declarations: [
         AuthorsSelectComponent,

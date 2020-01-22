@@ -5,12 +5,12 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { Store } from '@ngrx/store';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { CourseFormComponent } from './course-form.component';
 import { SharedModule } from '../../../shared';
-import { Course, ICourse } from '../../entitites';
+import { Course } from '../../entitites';
 import { AppState } from '../../../core/store';
-import { addCourse, updateCourse } from '../../store';
 
 const mockCourse = new Course({
   creationDate: new Date(),
@@ -40,10 +40,14 @@ describe('CourseFormComponent', () => {
       providers: [provideMockStore(), {
         provide: ActivatedRoute,
         useValue: mockRoute
+      }, {
+        provide: TranslateService,
+        useValue: { get: (() => '') }
       }],
       imports: [
         SharedModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        TranslateModule
       ],
       schemas: [NO_ERRORS_SCHEMA]
     })

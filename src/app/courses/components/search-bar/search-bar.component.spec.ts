@@ -1,8 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { SearchBarComponent } from './search-bar.component';
 import { By } from '@angular/platform-browser';
+import { EMPTY, of } from 'rxjs';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+
+import { SearchBarComponent } from './search-bar.component';
 
 describe('SearchBarComponent', () => {
   let component: SearchBarComponent;
@@ -13,8 +16,16 @@ describe('SearchBarComponent', () => {
       declarations: [ SearchBarComponent ],
       imports: [
         FormsModule,
+        TranslateModule,
         ReactiveFormsModule
-      ]
+      ],
+      providers: [{
+        provide: TranslateService,
+        useValue: {
+          get() { return of(''); },
+          onDefaultLangChange: EMPTY
+        }
+      }]
     })
     .compileComponents();
   }));

@@ -2,21 +2,21 @@
   <span
     class="error"
     *ngIf="control.hasError('required')"
-  >*required</span>
+  >*{{ "ERRORS.REQUIRED" | translate }}</span>
   <span
     class="error"
     *ngIf="control.hasError('maxlength')"
-  >too long</span>
+  >{{ "ERRORS.MAX_LENGTH" | translate }}</span>
   <span
     class="error"
     *ngIf="control.hasError('dateFormat')"
-  >should be 'dd/mm/yyyy'</span>
+  >{{ "ERRORS.DATE_FORMAT" | translate }}</span>
   <span
     class="error"
     *ngIf="control.hasError('onlyNumbers')"
-  >only numbers allow</span>
+  >{{ "ERRORS.ONLY_NUMBERS" | translate }}</span>
   <span
     class="error"
     *ngIf="control.hasError('minArrLength')"
-  >should be selected at least one</span>
+  >{{ "ERRORS.MIN_ARR_LENGTH" | translate }}</span>
 </div>

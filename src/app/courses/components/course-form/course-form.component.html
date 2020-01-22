@@ -3,41 +3,41 @@
     class="course-form p-4 rounded mx-auto secondary-shadow"
     (submit)="onSubmit(courseForm.value)"
   >
-    <h4 class="course-form__title mb-3">{{ isCreateMode ? 'New' : 'Edit' }} course</h4>
+    <h4 class="course-form__title mb-3">{{ isCreateMode ? 'COURSE_FORM.CREATE_TITLE' : 'COURSE_FORM.EDIT_TITLE' }}</h4>
 
     <cs-input
       class="course-form__input"
-      label="Title:"
-      placeholder="Text input"
+      [label]="'COURSE_FORM.TITLE_LBL' | translate"
+      [placeholder]="'COURSE_FORM.TITLE_PLACEHOLDER' | translate"
       [control]="courseForm.get('title')"
     ></cs-input>
 
     <cs-input
       class="course-form__input"
-      label="Description:"
-      placeholder="Add description"
+      [label]="'COURSE_FORM.DESCRIPTION_LBL' | translate"
+      [placeholder]="'COURSE_FORM.DESCRIPTION_PLACEHOLDER' | translate"
       [textarea]="true"
       [control]="courseForm.get('description')"
     ></cs-input>
 
     <cs-duration-input
       class="course-form__input--sm d-block"
-      label="Duration:"
-      placeholder="minutes"
+      [label]="'COURSE_FORM.DURATION_LBL' | translate"
+      [placeholder]="'COURSE_FORM.DURATION_PLACEHOLDER' | translate"
       [formControl]="courseForm.get('duration')"
     ></cs-duration-input>
 
     <cs-datepicker
       class="course-form__input--sm d-block"
-      label="Date:"
-      placeholder="mm/dd/yyyy"
+      [label]="'COURSE_FORM.DATE_LBL' | translate"
+      [placeholder]="'COURSE_FORM.DATE_PLACEHOLDER' | translate"
       [formControl]="courseForm.get('creationDate')"
     ></cs-datepicker>
 
     <cs-authors-select
       class="course-form__input--md d-block"
-      label="Authors:"
-      placeholder="Start typing"
+      [label]="'COURSE_FORM.AUTHORS_LBL' | translate"
+      [placeholder]="'COURSE_FORM.AUTHORS_PLACEHOLDER' | translate"
       [authors]="(authors$ | async) || []"
       [formControl]="courseForm.get('authors')"
     ></cs-authors-select>
@@ -46,12 +46,12 @@
       <button
         class="btn btn-secondary btn-sm px-2"
         [routerLink]="['/courses']"
-      >Cancel</button>
+      >{{ 'BUTTONS.CANCEL' | translate }}</button>
       <button
         class="btn btn-success  btn-sm px-2 ml-2 text-light"
         type="submit"
         [disabled]="courseForm.invalid"
-      >Save</button>
+      >{{ 'BUTTONS.SAVE' | translate }}</button>
     </div>
   </form>
 </section>
