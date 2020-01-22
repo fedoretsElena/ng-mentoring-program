@@ -2,10 +2,16 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { By } from '@angular/platform-browser';
-import { EMPTY, of } from 'rxjs';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 import { SearchBarComponent } from './search-bar.component';
+import { of } from 'rxjs';
+
+class FakeTranslateLoader implements TranslateLoader {
+  public getTranslation(_: any) {
+    return of();
+  }
+}
 
 describe('SearchBarComponent', () => {
   let component: SearchBarComponent;
@@ -16,16 +22,11 @@ describe('SearchBarComponent', () => {
       declarations: [ SearchBarComponent ],
       imports: [
         FormsModule,
-        TranslateModule,
+        TranslateModule.forRoot({
+          loader: { provide: TranslateLoader, useClass: FakeTranslateLoader}
+        }),
         ReactiveFormsModule
-      ],
-      providers: [{
-        provide: TranslateService,
-        useValue: {
-          get() { return of(''); },
-          onDefaultLangChange: EMPTY
-        }
-      }]
+      ]
     })
     .compileComponents();
   }));

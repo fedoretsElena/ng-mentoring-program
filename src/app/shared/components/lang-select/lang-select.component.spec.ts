@@ -7,6 +7,7 @@ import { SelectComponent } from '../select';
 
 describe('LangSelectComponent', () => {
   let component: LangSelectComponent;
+  let translateService: TranslateService;
   let fixture: ComponentFixture<LangSelectComponent>;
 
   beforeEach(async(() => {
@@ -14,7 +15,7 @@ describe('LangSelectComponent', () => {
       declarations: [ LangSelectComponent, SelectComponent ],
       providers: [{
         provide: TranslateService,
-        useValue: { instant: () => '' }
+        useValue: { instant: () => '', setDefaultLang(lang) {}}
       }]
     })
     .compileComponents();
@@ -23,10 +24,18 @@ describe('LangSelectComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LangSelectComponent);
     component = fixture.componentInstance;
+    translateService = TestBed.get(TranslateService);
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call translateService after select', () => {
+    const spy = spyOn(translateService, 'setDefaultLang');
+    component.onSelect('en');
+
+    expect(spy).toHaveBeenCalledWith('en');
   });
 });

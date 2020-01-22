@@ -2,9 +2,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { EMPTY, of } from 'rxjs';
+import { of } from 'rxjs';
 import { provideMockStore } from '@ngrx/store/testing';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 import { LoginComponent } from './login.component';
 import { SharedModule } from '../../../shared';
@@ -17,8 +17,10 @@ class MockAuthService extends AuthService {
   }
 }
 
-class MockTranslateService {
- get() { return of(''); }
+class FakeTranslateLoader implements TranslateLoader {
+  public getTranslation(_: any) {
+    return of();
+  }
 }
 
 describe('LoginComponent', () => {
@@ -31,7 +33,9 @@ describe('LoginComponent', () => {
       declarations: [LoginComponent],
       imports: [
         RouterTestingModule,
-        TranslateModule,
+        TranslateModule.forRoot({
+          loader: { provide: TranslateLoader, useClass: FakeTranslateLoader}
+        }),
         HttpClientTestingModule,
 
         SharedModule
@@ -39,9 +43,6 @@ describe('LoginComponent', () => {
       providers: [{
         provide: AuthService,
         useClass: MockAuthService
-      }, {
-        provide: TranslateService,
-        useClass: MockTranslateService
       }, provideMockStore()]
     })
     .compileComponents();

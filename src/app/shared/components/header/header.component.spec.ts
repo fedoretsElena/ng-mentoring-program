@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { of } from 'rxjs';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { HeaderComponent } from './header.component';
 import { LogoComponent } from '../logo';
@@ -19,6 +19,11 @@ class MockAuthService {
   logout() {
     return of();
   }
+}
+
+class MockTranslateService {
+  get onDefaultLangChange() { return of(''); }
+  get() { return of(''); }
 }
 
 describe('HeaderComponent', () => {
@@ -41,6 +46,9 @@ describe('HeaderComponent', () => {
       providers: [{
         provide: AuthService,
         useClass: MockAuthService
+      }, {
+        provide: TranslateService,
+        useClass: MockTranslateService
       }]
     })
     .compileComponents();

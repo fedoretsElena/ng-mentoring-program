@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { MockDirective } from 'ng-mocks';
 import { SwalDirective } from '@sweetalert2/ngx-sweetalert2';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 
 import { CoursesListComponent } from './courses-list.component';
@@ -12,6 +12,12 @@ import { SharedModule } from '../../../shared';
 import { courses } from '../../mocks';
 import { Course } from '../../entitites';
 import { DateStatusDirective } from '../../directives';
+
+class FakeTranslateLoader implements TranslateLoader {
+  public getTranslation(_: any) {
+    return of();
+  }
+}
 
 describe('CoursesListComponent', () => {
   let component: CoursesListComponent;
@@ -27,15 +33,13 @@ describe('CoursesListComponent', () => {
         MockDirective(SwalDirective)
       ],
       imports: [
-        TranslateModule,
+        TranslateModule.forRoot({
+          loader: { provide: TranslateLoader, useClass: FakeTranslateLoader}
+        }),
         RouterTestingModule,
 
         SharedModule,
-      ],
-      providers: [{
-        provide: TranslateService,
-        useValue: { get() { return of(''); }}
-      }]
+      ]
     })
     .compileComponents();
   }));

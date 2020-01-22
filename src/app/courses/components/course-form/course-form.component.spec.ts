@@ -5,7 +5,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { Store } from '@ngrx/store';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { of } from 'rxjs';
 
 import { CourseFormComponent } from './course-form.component';
 import { SharedModule } from '../../../shared';
@@ -29,6 +30,12 @@ const mockRoute = {
   }
 };
 
+class FakeTranslateLoader implements TranslateLoader {
+  public getTranslation(_: any) {
+    return of();
+  }
+}
+
 describe('CourseFormComponent', () => {
   let component: CourseFormComponent;
   let fixture: ComponentFixture<CourseFormComponent>;
@@ -40,14 +47,13 @@ describe('CourseFormComponent', () => {
       providers: [provideMockStore(), {
         provide: ActivatedRoute,
         useValue: mockRoute
-      }, {
-        provide: TranslateService,
-        useValue: { get: (() => '') }
       }],
       imports: [
         SharedModule,
         HttpClientTestingModule,
-        TranslateModule
+        TranslateModule.forRoot({
+          loader: { provide: TranslateLoader, useClass: FakeTranslateLoader}
+        })
       ],
       schemas: [NO_ERRORS_SCHEMA]
     })

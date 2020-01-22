@@ -4,11 +4,11 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MockDirective } from 'ng-mocks';
 import { SwalDirective } from '@sweetalert2/ngx-sweetalert2';
 import { MemoizedSelector, Store } from '@ngrx/store';
-import { EMPTY } from 'rxjs';
+import { of } from 'rxjs';
 
 import { CoursesComponent } from './courses.component';
 import { SearchBarComponent } from '../search-bar';
@@ -26,8 +26,10 @@ class MockCoursesService {
   onFiltersChange(filters) {}
 }
 
-class MockTranslateService {
-  onDefaultLangChange = EMPTY;
+class FakeTranslateLoader implements TranslateLoader {
+  public getTranslation(_: any) {
+    return of();
+  }
 }
 
 describe('CoursesComponent', () => {
@@ -54,16 +56,15 @@ describe('CoursesComponent', () => {
       ],
       imports: [
         FormsModule,
-        TranslateModule,
+        TranslateModule.forRoot({
+          loader: { provide: TranslateLoader, useClass: FakeTranslateLoader}
+        }),
         ReactiveFormsModule,
         RouterTestingModule,
 
         SharedModule
       ],
       providers: [{
-        provide: TranslateService,
-        useClass: MockTranslateService
-      }, {
         provide: CoursesService,
         useClass: MockCoursesService
       }, provideMockStore()]

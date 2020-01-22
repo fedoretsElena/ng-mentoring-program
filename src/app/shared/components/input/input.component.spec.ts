@@ -1,8 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { of } from 'rxjs';
 
 import { InputComponent } from './input.component';
 import { InputErrorsComponent } from '../input-errors';
+
+class FakeTranslateLoader implements TranslateLoader {
+  public getTranslation(_: any) {
+    return of();
+  }
+}
 
 describe('InputComponent', () => {
   let component: InputComponent;
@@ -16,6 +25,10 @@ describe('InputComponent', () => {
       ],
       imports: [
         FormsModule,
+        TranslateModule.forRoot({
+          loader: { provide: TranslateLoader, useClass: FakeTranslateLoader}
+        }),
+
         ReactiveFormsModule
       ]
     })

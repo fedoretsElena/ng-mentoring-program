@@ -1,9 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { of } from 'rxjs';
 
 import { FooterComponent } from './footer.component';
-import { EMPTY, of } from 'rxjs';
+
+class FakeTranslateLoader implements TranslateLoader {
+  public getTranslation(_: any) {
+    return of();
+  }
+}
 
 describe('FooterComponent', () => {
   let component: FooterComponent;
@@ -12,15 +18,10 @@ describe('FooterComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ FooterComponent ],
-      providers: [{
-        provide: TranslateService,
-        useValue: {
-          get() { return of(''); },
-          onDefaultLangChange: EMPTY
-        }
-      }],
       imports: [
-        TranslateModule
+        TranslateModule.forRoot({
+          loader: { provide: TranslateLoader, useClass: FakeTranslateLoader}
+        })
       ]
     })
     .compileComponents();
